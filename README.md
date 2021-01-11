@@ -1,5 +1,5 @@
-**What does this do?**  
-**It adds a menu to your game that allows you to control many aspects of things around Night City. HACK THE PLANET!  
+## **What does this do?**
+It adds a menu to your game that allows you to control many aspects of things around Night City. HACK THE PLANET!  
   
   
 **Doors**  
@@ -37,21 +37,30 @@ Stage a photoshoot or cause mayhem using these tools.
 
   
   
-**Requirements**  
+
+
+## Requirements
 This mod requires at least version 1.8.3 of [Cyber Engine Tweaks mod](https://github.com/yamashi/CyberEngineTweaks/releases).  
   
   
-**How to Install**  
+
+## **How to Install**
+
+  
 Extract the ZIP file to `Cyberpunk 2077\bin\x64\plugins\cyber_engine_tweaks\mods  
 `  
   
-**How to Use**  
+
+## **How to Use**
+
 The mod window will appear by default when opening the CET console. If you'd like to toggle it's visibility, you can use the F2 key.  
   
 Actions like opening doors, affecting cars, etc. are dependent on you looking at the object you'd like to affect in the game. For now, the CET console must be open to be able to interact with the mod UI.  
   
   
-**Credits**  
+
+## **Credits**
+
 [Yamashi](https://github.com/yamashi) - For developing CET in the first place and making this possible.  
 [WhySoSerious](https://github.com/WSSDude420) - For his awesome work in implementing ImGui and being an invaluable helpful resource.  
 [Expired](https://github.com/expired6978) - For being a scripting god and helping all of us figure out how to use Lua scripting.  
