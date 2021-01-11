@@ -17,6 +17,20 @@ function Device.Off()
     getTarget:TurnOffDevice()
 end
 
+function Device.Activate()
+    local getPlayer = Game.GetPlayer()
+    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+
+    getTarget:ActivateDevice()
+end
+
+function Device.Deactivate()
+    local getPlayer = Game.GetPlayer()
+    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+
+    getTarget:DeactivateDevice()
+end
+
 function Device.ScreenOn()
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
