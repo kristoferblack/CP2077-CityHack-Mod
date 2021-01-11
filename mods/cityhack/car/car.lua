@@ -5,18 +5,6 @@ local Car = {
 
 local Util = require(Car.rootPath.."utility.utility")
 
-function Car.DetachAll()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    if Util.IsA(Car.objectType, getTarget) then
-        getTarget:DetachAllParts()
-        return true
-    else
-        return false
-    end
-end
-
 function Car.SetAsPlayerVehicle()
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
@@ -25,76 +13,23 @@ function Car.SetAsPlayerVehicle()
     getTargetPS:SetIsPlayerVehicle(1)
 end
 
-function Car.OpenAllDoors()
+function Car.Doors(state)
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
 
     if Util.IsA(Car.objectType, getTarget) then
         local getTargetPS = getTarget:GetVehiclePS()
         
-        getTargetPS:OpenAllVehDoors()
+        if state == "open" then
+            getTargetPS:OpenAllRegularVehDoors()
+        elseif state == "close" then
+            getTargetPS:CloseAllVehDoors()
+        elseif state == "lock" then
+            getTargetPS:LockAllVehDoors()
+        elseif state == "unlock" then
+            getTargetPS:UnlockAllVehDoors()
+        end
         
-        return true
-    else
-        return false
-    end
-end
-
-function Car.OpenJustDoors()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-    
-    if Util.IsA(Car.objectType, getTarget) then
-        local getTargetPS = getTarget:GetVehiclePS()
-
-        getTargetPS:OpenAllRegularVehDoors()
-
-        return true
-    else   
-        return false
-    end
-end
-
-function Car.CloseAllDoors()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-    
-    if Util.IsA(Car.objectType, getTarget) then
-        local getTargetPS = getTarget:GetVehiclePS()
-
-        getTargetPS:CloseAllVehDoors()
-
-        return true
-    else
-        return false
-    end
-end
-
-
-function Car.LockAllDoors()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    if Util.IsA(Car.objectType, getTarget) then
-        local getTargetPS = getTarget:GetVehiclePS()
-
-        getTargetPS:LockAllVehDoors()
-
-        return true
-    else
-        return false
-    end
-end
-
-function Car.UnlockAllDoors()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    if Util.IsA(Car.objectType, getTarget) then
-        local getTargetPS = getTarget:GetVehiclePS()
-
-        getTargetPS:UnlockAllVehDoors()
-
         return true
     else
         return false
@@ -115,6 +50,18 @@ function Car.Windows(state)
             getTargetPS:CloseAllVehWindows()
         end
             
+        return true
+    else
+        return false
+    end
+end
+
+function Car.DetachAll()
+    local getPlayer = Game.GetPlayer()
+    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+
+    if Util.IsA(Car.objectType, getTarget) then
+        getTarget:DetachAllParts()
         return true
     else
         return false
@@ -211,8 +158,6 @@ function Car.Engine(state)
     end 
 end
 
--- Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false):GetVehicleComponent():GetVehicleControllerPS():SetState(1)
--- Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false):GetVehiclePS():GetVehicleControllerPS():SetLightMode(1)
 function Car.Reset()
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)

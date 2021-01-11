@@ -10,11 +10,15 @@ function Door.Toggle(state)
     if Util.IsA("Door", getTarget) then
         local getTargetPS = getTarget:GetDevicePS()
 
-        if getTargetPS:IsLocked() then CityHack.Door.ToggleLock() end
-        if getTargetPS:IsSealed() then CityHack.Door.ToggleSeal() end
-
         if state == "open" then
+            getTargetPS:SetNewDoorType(1)
+            getTargetPS:InitializeDoorTypes()
+
+            if getTargetPS:IsLocked() then getTargetPS:ToggleLockOnDoor() end
+            if getTargetPS:IsSealed() then getTargetPS:ToggleSealOnDoor() end
+
             getTarget:OpenDoor()
+
         elseif state == "close" then
             getTarget:CloseDoor()
         end
@@ -47,8 +51,8 @@ function Door.SetType(type)
         getTargetPS:SetNewDoorType(type)
         getTargetPS:InitializeDoorTypes()
 
-        if getTargetPS:IsLocked() then CityHack.Door.ToggleLock() end
-        if getTargetPS:IsSealed() then CityHack.Door.ToggleSeal() end
+        if getTargetPS:IsLocked() then getTargetPS:ToggleLockOnDoor() end
+        if getTargetPS:IsSealed() then getTargetPS:ToggleSealOnDoor() end
 
         getTarget:OpenDoor()
 
@@ -65,14 +69,7 @@ function Door.ToggleLock()
     if Util.IsA("Door", getTarget) then
         local getTargetPS = getTarget:GetDevicePS()
 
-        if getTargetPS:IsLocked() then
-            getTargetPS:ToggleLockOnDoor()
-            CityHack.Util.Log("DOOR WAS LOCKED - NOW UNLOCKED")
-
-        elseif getTargetPS:IsLocked() == false then
-            getTargetPS:ToggleLockOnDoor()
-            CityHack.Util.Log("DOOR WAS UNLOCKED - NOW LOCKED")
-        end
+        getTargetPS:ToggleLockOnDoor()
 
         return true
     else
@@ -86,15 +83,8 @@ function Door.ToggleSeal()
 
     if Util.IsA("Door", getTarget) then
         local getTargetPS = getTarget:GetDevicePS()
-        
-        if getTargetPS:IsSealed() then
-            getTargetPS:ToggleSealOnDoor()
-            CityHack.Util.Log("SUCCESS - DOOR WAS SEALED - NOW UNSEALED")
 
-        elseif getTargetPS:IsSealed() == false then
-            getTargetPS:ToggleSealOnDoor()
-            CityHack.Util.Log("SUCCESS - DOOR WAS UNSEALED - NOW SEALED")
-        end
+        getTargetPS:ToggleSealOnDoor()
 
         return true
     else
@@ -105,11 +95,16 @@ end
 function Door.Reset()
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-    local getTargetPS = getTarget:GetDevicePS()
+    
+    if Util.IsA("Door", getTarget) then
+        local getTargetPS = getTarget:GetDevicePS()
 
-    CityHack.Util.Log("DOOR RESET - SUCCESS")
+        getTargetPS:ResetToDefault()
 
-    getTargetPS:ResetToDefault()
+        return true
+    else
+        return false
+    end
 end
 
 return Door

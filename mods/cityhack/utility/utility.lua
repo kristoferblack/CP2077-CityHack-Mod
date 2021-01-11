@@ -1,18 +1,32 @@
-local Utility = {}
-
-
-local function dumpToFile(obj, path)
-	local dump = tostring(Dump(obj))
-	local output = io.open(path or "output.txt", "w")
-	
-	print(dump)
-	
-	output:write(dump)
-	output:close()
-end
+local Utility = {
+    prefix = "[CITY H4CK] "
+}
 
 function Utility.Log(input)
-    print("[CITY H4CK] "..input)
+    print(Utility.prefix..input)
+end
+
+function Utility.Response(system, action, result, context)
+
+    separator = " - "
+
+    if not context then
+        contextSeparator = ""
+        context = ""
+    else
+        contextSeparator = separator
+    end
+
+    if result then
+        result = "SUCCESS"
+    else
+        result = "FAILURE"
+        contextSeparator = separator
+        context = "Not looking at correct object type"
+    end
+
+    print(Utility.prefix .. system.upper(system) .. separator .. action.upper(action) .. separator .. result.upper(result) .. contextSeparator .. context)
+
 end
 
 -- dump object

@@ -94,9 +94,9 @@ function CityHack:new()
 
                         if ImGui.Button("Open", style.buttonWidth, style.buttonHeight) then
                             if CityHack.Door.Toggle("open") then
-                                CityHack.Util.Log("DOOR OPEN - SUCCESS")
+                                CityHack.Util.Response("door", "open", true, false)
                             else
-                                CityHack.Util.Log("DOOR OPEN - ERROR - The object is not a door.")
+                                CityHack.Util.Response("door", "open", false, false)
                             end
                         end
                         
@@ -106,47 +106,26 @@ function CityHack:new()
 
                         if ImGui.Button("Close", style.buttonWidth, style.buttonHeight) then
                             if CityHack.Door.Toggle("close") then
-                                CityHack.Util.Log("DOOR CLOSE - SUCCESS")
+                                CityHack.Util.Response("door", "close", true, false)
                             else
-                                CityHack.Util.Log("DOOR CLOSE - ERROR - The object is not a door.")
+                                CityHack.Util.Response("door", "close", false, false)
+                            end
+                        end
+
+                        if ImGui.Button("Reset", style.buttonWidth, style.buttonHeight) then
+                            if not CityHack.Door.Reset() then
+                                CityHack.Util.Response("door", "reset", false, false)
                             end
                         end
 
                         ImGui.Spacing()
                         ImGui.NextColumn()
 
-                        ---------------- TOGGLE LOCK ----------------
-                        ImGui.Spacing()
-                        ImGui.Text("Locks / Seals")
-                        ImGui.Spacing()
-
-                        if ImGui.Button("Toggle Lock", style.buttonWidth, style.buttonHeight) then
-                            if not CityHack.Door.ToggleLock() then
-                                CityHack.Util.Log("TOGGLE LOCK - ERROR - The object is not a door.")
-                            end
-                        end
-
-                        if ImGui.Button("Toggle Seal", style.buttonWidth, style.buttonHeight) then
-                            if not CityHack.Door.ToggleSeal() then
-                                CityHack.Util.Log("TOGGLE SEAL - ERROR - The object is not a door.")
-                            end
-                        end
-
-                        if ImGui.Button("Reset", style.buttonWidth, style.buttonHeight) then
-                            if not CityHack.Door.Reset() then
-                                CityHack.Util.Log("TOGGLE SEAL - ERROR - The object is not a door.")
-                            end
-                        end
-
-
-                        ImGui.Spacing()
-                        ImGui.Separator()
-                        ImGui.Spacing()
-
-                        ImGui.Columns(1)
+      
                         ImGui.Columns(2, "ElevatorOther", false)
                         
                         ---------------- ELEVATOR GROUP ---------------- 
+                        ImGui.Spacing()
                         ImGui.Text("Elevators")
                         ImGui.Spacing()
 
@@ -161,15 +140,18 @@ function CityHack:new()
                         ImGui.Spacing()
                         ImGui.NextColumn()
 
+                        ImGui.Separator()
+                        ImGui.Spacing()
+
                         ---------------- OTHER BUTTONS ---------------- 
                         ImGui.Text("Other")
                         ImGui.Spacing()
 
                         if ImGui.Button("Set Auto", style.buttonWidth, style.buttonHeight) then
                             if CityHack.Door.SetType(2) then
-                                CityHack.Util.Log("SET AUTO DOOR - SUCCESS")
+                                CityHack.Util.Response("door", "auto", true, false)
                             else
-                                CityHack.Util.Log("SET AUTO DOOR - ERROR - The object is not a door.")
+                                CityHack.Util.Response("door", "auto", false, false)
                             end
                         end
 
@@ -179,9 +161,9 @@ function CityHack:new()
 
                         if ImGui.Button("Set Manual", style.buttonWidth, style.buttonHeight) then
                             if CityHack.Door.SetType(1) then
-                                CityHack.Util.Log("SET AUTO DOOR - SUCCESS")
+                                CityHack.Util.Response("door", "manual", true, false)
                             else
-                                CityHack.Util.Log("SET MANUAL DOOR - ERROR - The object is not a door.")
+                                CityHack.Util.Response("door", "manual", false, false)
                             end
                         end
 
@@ -233,25 +215,37 @@ function CityHack:new()
 
                         ImGui.Columns(2, "CarDoors", false)
                         if ImGui.Button("Open All", style.buttonWidth, style.buttonHeight) then
-                            if CityHack.Car.OpenJustDoors() then 
-                                CityHack.Util.Log("CAR DOORS - OPEN ALL - SUCCESS")
+                            if CityHack.Car.Doors("open") then 
+                                CityHack.Util.Response("car doors", "open", true, false)
                             else 
-                                CityHack.Util.Log("CAR DOORS - OPEN ALL - ERROR - Not looking at a car.") 
+                                CityHack.Util.Response("car doors", "open", false, false)
                             end
                         end
 
                         if ImGui.Button("Close All", style.buttonWidth, style.buttonHeight) then
-                            CityHack.Car.CloseAllDoors()
+                            if CityHack.Car.Doors("close") then 
+                                CityHack.Util.Response("car doors", "close", true, false)
+                            else 
+                                CityHack.Util.Response("car doors", "close", false, false)
+                            end
                         end
 
                         ImGui.NextColumn()
 
                         if ImGui.Button("Lock All", style.buttonWidth, style.buttonHeight) then
-                            CityHack.Car.LockAllDoors()
+                            if CityHack.Car.Doors("lock") then 
+                                CityHack.Util.Response("car doors", "lock", true, false)
+                            else 
+                                CityHack.Util.Response("car doors", "lock", false, false)
+                            end
                         end
 
                         if ImGui.Button("Unlock All", style.buttonWidth, style.buttonHeight) then
-                            CityHack.Car.UnlockAllDoors()
+                            if CityHack.Car.Doors("lock") then 
+                                CityHack.Util.Response("car doors", "unlock", true, false)
+                            else 
+                                CityHack.Util.Response("car doors", "unlock", false, false)
+                            end
                         end
                         ImGui.Columns(1)
 
@@ -267,13 +261,21 @@ function CityHack:new()
 
                         ImGui.PushID("CarWindowOpenAll")
                         if ImGui.Button("Open All", style.buttonWidth, style.buttonHeight) then
-                            CityHack.Car.Windows("open")
+                            if CityHack.Car.Windows("open") then 
+                                CityHack.Util.Response("car windows", "open", true, false)
+                            else 
+                                CityHack.Util.Response("car windows", "open", false, false)
+                            end
                         end
                         ImGui.PopID()
 
                         ImGui.PushID("CarWindowCloseAll")
                         if ImGui.Button("Close All", style.buttonWidth, style.buttonHeight) then
-                            CityHack.Car.Windows("close")
+                            if CityHack.Car.Windows("close") then 
+                                CityHack.Util.Response("car windows", "close", true, false)
+                            else 
+                                CityHack.Util.Response("car windows", "close", false, false)
+                            end
                         end
                         ImGui.PopID()
                         ImGui.Spacing()
@@ -292,7 +294,11 @@ function CityHack:new()
                         ImGui.PopItemWidth()
 
                         if ImGui.Button("Set Lights", style.buttonWidth, style.buttonHeight) then
-                            CityHack.Car.Lights(CarLightState)
+                            if CityHack.Car.Lights(CarLightState) then
+                                CityHack.Util.Response("car lights", "set", true, false)
+                            else
+                                CityHack.Util.Response("car lights", "set", false, false)
+                            end
                         end
 
                         ImGui.Spacing()
@@ -300,18 +306,26 @@ function CityHack:new()
                         ImGui.Spacing()
                         ImGui.Columns(1)
 
-
+                        ---------------- CAR ENGINE ---------------- 
                         ImGui.Columns(2, "CarEngine", false)
                         ImGui.Text("Engine")
                         ImGui.Spacing()
 
                             
                         if ImGui.Button("Turn On", style.buttonWidth, style.buttonHeight) then
-                            CityHack.Car.Engine("on")
+                            if CityHack.Car.Engine("on") then
+                                CityHack.Util.Response("car engine", "on", true, false)
+                            else
+                                CityHack.Util.Response("car engine", "on", false, false)
+                            end
                         end
 
                         if ImGui.Button("Turn Off", style.buttonWidth, style.buttonHeight) then
-                            CityHack.Car.Engine("off")
+                            if CityHack.Car.Engine("off") then
+                                CityHack.Util.Response("car engine", "off", true, false)
+                            else
+                                CityHack.Util.Response("car engine", "off", false, false)
+                            end
                         end
 
                         ImGui.NextColumn()
@@ -319,7 +333,11 @@ function CityHack:new()
                         ImGui.Spacing()
 
                         if ImGui.Button("Repair Car", style.buttonWidth, style.buttonHeight) then
-                            CityHack.Car.Repair()
+                            if CityHack.Car.Repair() then
+                                CityHack.Util.Response("car", "repair", true, false)
+                            else
+                                CityHack.Util.Response("car", "repair", false, false)
+                            end
                         end
 
                         if ImGui.IsItemHovered() then
@@ -327,11 +345,19 @@ function CityHack:new()
                         end
 
                         if ImGui.Button("Honk & Flash", style.buttonWidth, style.buttonHeight) then
-                            CityHack.Car.HonkFlash()
+                            if CityHack.Car.HonkFlash() then
+                                CityHack.Util.Response("car", "honk & flash", true, false)
+                            else
+                                CityHack.Util.Response("car", "honk & flash", false, false)
+                            end
                         end
 
                         if ImGui.Button("Set Immortal", style.buttonWidth, style.buttonHeight) then
-                            CityHack.Car.SetGod()
+                            if CityHack.Car.SetGod() then
+                                CityHack.Util.Response("car", "set immortal", true, false)
+                            else
+                                CityHack.Util.Response("car", "set immortal", false, false)
+                            end
                         end
 
                         if ImGui.IsItemHovered() then
@@ -349,11 +375,19 @@ function CityHack:new()
                         ImGui.Spacing()
 
                         if ImGui.Button("Detach All Parts", style.buttonWidth, style.buttonHeight) then
-                            CityHack.Car.DetachAll()
+                            if CityHack.Car.DetachAll() then
+                                CityHack.Util.Response("car", "detach all", true, false)
+                            else
+                                CityHack.Util.Response("car", "detach all", false, false)
+                            end
                         end
 
                         if ImGui.Button("Destroy Car", style.buttonWidth, style.buttonHeight) then
-                            CityHack.Car.Destroy()
+                            if CityHack.Car.Destroy() then
+                                CityHack.Util.Response("car", "destroy", true, false)
+                            else
+                                CityHack.Util.Response("car", "destroy", false, false)
+                            end
                         end
 
                         if ImGui.IsItemHovered() then
