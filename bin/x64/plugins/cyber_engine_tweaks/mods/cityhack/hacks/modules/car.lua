@@ -1,10 +1,10 @@
 local Car = {
-    rootPath =  "cityhack.",
+    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
     objectType = "vehicleCarBaseObject",
     objectTypeBike = "vehicleBikeBaseObject"
 }
 
-local Util = require(Car.rootPath.."utility.utility")
+local Util = require(Car.rootPath.."hacks.modules.utility")
 
 function Car.SetAsPlayerVehicle()
     local getPlayer = Game.GetPlayer()

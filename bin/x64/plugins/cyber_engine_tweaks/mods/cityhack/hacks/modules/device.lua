@@ -1,7 +1,7 @@
 local Device = {
-    rootPath = "cityhack."
+    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
 }
-local Utility = require(Device.rootPath.."utility.utility")
+local Util = require(Device.rootPath.."hacks.modules.utility")
 
 function Device.On()
     local getPlayer = Game.GetPlayer()

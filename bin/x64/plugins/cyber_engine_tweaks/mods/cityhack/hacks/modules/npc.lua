@@ -1,8 +1,8 @@
 local NPC = {
-    rootPath =  "cityhack.",
+    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
     objectType = "NPCPuppet"
 }   
-local Util = require(NPC.rootPath.."utility.utility")
+local Util = require(NPC.rootPath.."hacks.modules.utility")
 
 function NPC.Kill()
     local getPlayer = Game.GetPlayer()

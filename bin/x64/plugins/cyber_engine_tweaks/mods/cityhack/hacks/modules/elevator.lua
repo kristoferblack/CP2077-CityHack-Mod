@@ -1,9 +1,7 @@
 Elevator = { 
     description = "",
-    rootPath =  "cityhack."
+    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack."
 }
-
-local Utility = require(Elevator.rootPath.."utility.utility")
 
 function Elevator.RestoreAccess()
     local function handleLiftControllerPS(liftControllerPS)

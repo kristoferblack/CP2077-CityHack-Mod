@@ -1,7 +1,7 @@
 local Door = {
-    rootPath =  "cityhack."
+    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
 }
-local Util = require(Door.rootPath.."utility.utility")
+local Util = require(Door.rootPath.."hacks.modules.utility")
 
 function Door.Toggle(state)
     local getPlayer = Game.GetPlayer()
