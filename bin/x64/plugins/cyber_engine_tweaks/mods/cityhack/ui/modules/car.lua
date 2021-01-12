@@ -1,9 +1,10 @@
-local CarUI = {}
+local CarUI = {
+    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
 
-local CarLightState = 0
+    CarLightState = 0
+}
 
-
-function CarUI.Create(style)
+function CarUI.Create(CityHack, style)
 
     if ImGui.BeginTabItem("Cars") then
         ImGui.SetWindowSize(265, 570)
@@ -16,17 +17,17 @@ function CarUI.Create(style)
         ImGui.Columns(2, "CarDoors", false)
         if ImGui.Button("Open All", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.Doors("open") then 
-                CityHack.Util.Response("car doors", "open", true, false)
+                Util.Response("car doors", "open", true, false)
             else 
-                CityHack.Util.Response("car doors", "open", false, false)
+                Util.Response("car doors", "open", false, false)
             end
         end
 
         if ImGui.Button("Close All", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.Doors("close") then 
-                CityHack.Util.Response("car doors", "close", true, false)
+                Util.Response("car doors", "close", true, false)
             else 
-                CityHack.Util.Response("car doors", "close", false, false)
+                Util.Response("car doors", "close", false, false)
             end
         end
 
@@ -34,17 +35,17 @@ function CarUI.Create(style)
 
         if ImGui.Button("Lock All", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.Doors("lock") then 
-                CityHack.Util.Response("car doors", "lock", true, false)
+                Util.Response("car doors", "lock", true, false)
             else 
-                CityHack.Util.Response("car doors", "lock", false, false)
+                Util.Response("car doors", "lock", false, false)
             end
         end
 
         if ImGui.Button("Unlock All", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.Doors("lock") then 
-                CityHack.Util.Response("car doors", "unlock", true, false)
+                Util.Response("car doors", "unlock", true, false)
             else 
-                CityHack.Util.Response("car doors", "unlock", false, false)
+                Util.Response("car doors", "unlock", false, false)
             end
         end
         ImGui.Columns(1)
@@ -62,9 +63,9 @@ function CarUI.Create(style)
         ImGui.PushID("CarWindowOpenAll")
         if ImGui.Button("Open All", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.Windows("open") then 
-                CityHack.Util.Response("car windows", "open", true, false)
+                Util.Response("car windows", "open", true, false)
             else 
-                CityHack.Util.Response("car windows", "open", false, false)
+                Util.Response("car windows", "open", false, false)
             end
         end
         ImGui.PopID()
@@ -72,9 +73,9 @@ function CarUI.Create(style)
         ImGui.PushID("CarWindowCloseAll")
         if ImGui.Button("Close All", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.Windows("close") then 
-                CityHack.Util.Response("car windows", "close", true, false)
+                Util.Response("car windows", "close", true, false)
             else 
-                CityHack.Util.Response("car windows", "close", false, false)
+                Util.Response("car windows", "close", false, false)
             end
         end
         ImGui.PopID()
@@ -88,14 +89,14 @@ function CarUI.Create(style)
         local lights = table.concat(lightStates, "\0")
 
         ImGui.PushItemWidth(style.buttonWidth)
-        CarLightState = ImGui.Combo("##Car Light State", CarLightState, lights)
+        CarUI.CarLightState = ImGui.Combo("##Car Light State", CarUI.CarLightState, lights)
         ImGui.PopItemWidth()
 
         if ImGui.Button("Set Lights", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.Lights(CarLightState) then
-                CityHack.Util.Response("car lights", "set", true, false)
+                Util.Response("car lights", "set", true, false)
             else
-                CityHack.Util.Response("car lights", "set", false, false)
+                Util.Response("car lights", "set", false, false)
             end
         end
 
@@ -112,17 +113,17 @@ function CarUI.Create(style)
             
         if ImGui.Button("Turn On", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.Engine("on") then
-                CityHack.Util.Response("car engine", "on", true, false)
+                Util.Response("car engine", "on", true, false)
             else
-                CityHack.Util.Response("car engine", "on", false, false)
+                Util.Response("car engine", "on", false, false)
             end
         end
 
         if ImGui.Button("Turn Off", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.Engine("off") then
-                CityHack.Util.Response("car engine", "off", true, false)
+                Util.Response("car engine", "off", true, false)
             else
-                CityHack.Util.Response("car engine", "off", false, false)
+                Util.Response("car engine", "off", false, false)
             end
         end
 
@@ -133,9 +134,9 @@ function CarUI.Create(style)
         ---------------- CAR UTILITY ---------------- 
         if ImGui.Button("Repair Car", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.Repair() then
-                CityHack.Util.Response("car", "repair", true, false)
+                Util.Response("car", "repair", true, false)
             else
-                CityHack.Util.Response("car", "repair", false, false)
+                Util.Response("car", "repair", false, false)
             end
         end
 
@@ -145,17 +146,17 @@ function CarUI.Create(style)
 
         if ImGui.Button("Honk & Flash", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.HonkFlash() then
-                CityHack.Util.Response("car", "honk & flash", true, false)
+                Util.Response("car", "honk & flash", true, false)
             else
-                CityHack.Util.Response("car", "honk & flash", false, false)
+                Util.Response("car", "honk & flash", false, false)
             end
         end
 
         if ImGui.Button("Set Immortal", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.SetGod() then
-                CityHack.Util.Response("car", "set immortal", true, false)
+                Util.Response("car", "set immortal", true, false)
             else
-                CityHack.Util.Response("car", "set immortal", false, false)
+                Util.Response("car", "set immortal", false, false)
             end
         end
 
@@ -175,17 +176,17 @@ function CarUI.Create(style)
 
         if ImGui.Button("Detach All Parts", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.DetachAll() then
-                CityHack.Util.Response("car", "detach all", true, false)
+                Util.Response("car", "detach all", true, false)
             else
-                CityHack.Util.Response("car", "detach all", false, false)
+                Util.Response("car", "detach all", false, false)
             end
         end
 
         if ImGui.Button("Destroy Car", style.buttonWidth, style.buttonHeight) then
             if CityHack.Car.Destroy() then
-                CityHack.Util.Response("car", "destroy", true, false)
+                Util.Response("car", "destroy", true, false)
             else
-                CityHack.Util.Response("car", "destroy", false, false)
+                Util.Response("car", "destroy", false, false)
             end
         end
 

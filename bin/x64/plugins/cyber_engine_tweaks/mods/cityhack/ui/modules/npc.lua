@@ -1,6 +1,6 @@
 local NpcUI = {}
 
-function NpcUI.Create(style)
+function NpcUI.Create(CityHack, style)
 
     if ImGui.BeginTabItem("NPC") then
         ImGui.SetWindowSize(265, 200)

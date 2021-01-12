@@ -76,7 +76,7 @@ function CityHack:new()
 
         if drawWindow then
 
-            CityHack.CoreUI.Create()
+            CityHack.CoreUI.Create(CityHack)
 
         end
     end)    

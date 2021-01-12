@@ -1,6 +1,6 @@
 local DeviceUI = {}
 
-function DeviceUI.Create(style)
+function DeviceUI.Create(CityHack, style)
 
     if ImGui.BeginTabItem("Devices") then
         ImGui.SetWindowSize(265, 275)

@@ -1,6 +1,6 @@
 UtilUI = {}
 
-function UtilUI.Create(style) 
+function UtilUI.Create(CityHack, style) 
 
     if ImGui.BeginTabItem("Util") then
         ImGui.SetWindowSize(265, 360)

@@ -1,6 +1,6 @@
 local DoorUI = {}
 
-function DoorUI.Create(style)
+function DoorUI.Create(CityHack, style)
     if ImGui.BeginTabItem("Doors") then
         ImGui.SetWindowSize(265, 340)
 

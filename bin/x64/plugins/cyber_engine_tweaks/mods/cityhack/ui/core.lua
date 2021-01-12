@@ -2,7 +2,7 @@ UICore = {
     rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack."
 }
 
-function UICore.Create()
+function UICore.Create(CityHack)
     ImGui.PushStyleColor(ImGuiCol.Border, 0.56, 0.06, 0.03, 1)
     ImGui.PushStyleColor(ImGuiCol.TitleBg, 0.56, 0.06, 0.03, 0.5)
     ImGui.PushStyleColor(ImGuiCol.TitleBgActive, 0.56, 0.06, 0.03, 0.75)
@@ -37,19 +37,19 @@ function UICore.Create()
 
         if ImGui.BeginTabBar("CITYH4CKTABS") then
             ---------------- DOORS TAB ---------------- 
-            UICore.DoorUI.Create(style)
+            UICore.DoorUI.Create(CityHack, style)
             
             ---------------- DEVICES TAB ---------------- 
-            UICore.DeviceUI.Create(style)
+            UICore.DeviceUI.Create(CityHack, style)
 
             ---------------- CARS TAB ---------------- 
-            UICore.CarUI.Create(style)
+            UICore.CarUI.Create(CityHack, style)
 
             ---------------- NPC TAB ---------------- 
-            UICore.NpcUI.Create(style)
+            UICore.NpcUI.Create(CityHack, style)
 
             ---------------- UTIL TAB ---------------- 
-            UICore.UtilUI.Create(style)
+            UICore.UtilUI.Create(CityHack, style)
 
         end
         ImGui.EndTabBar()
