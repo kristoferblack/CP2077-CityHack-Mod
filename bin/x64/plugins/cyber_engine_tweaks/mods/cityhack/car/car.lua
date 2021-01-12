@@ -1,6 +1,7 @@
 local Car = {
     rootPath =  "cityhack.",
-    objectType = "vehicleCarBaseObject"
+    objectType = "vehicleCarBaseObject",
+    objectTypeBike = "vehicleBikeBaseObject"
 }
 
 local Util = require(Car.rootPath.."utility.utility")
@@ -91,7 +92,7 @@ function Car.Repair()
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
 
-    if Util.IsA(Car.objectType, getTarget) then
+    if Util.IsA(Car.objectType, getTarget) or Util.IsA(Car.objectTypeBike, getTarget) then
         local getTargetPS = getTarget:GetVehiclePS()
         local getTargetVC = getTarget:GetVehicleComponent()
 
@@ -111,7 +112,7 @@ function Car.HonkFlash()
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
 
-    if Util.IsA(Car.objectType, getTarget) then
+    if Util.IsA(Car.objectType, getTarget) or Util.IsA(Car.objectTypeBike, getTarget) then
         local getTargetVC = getTarget:GetVehicleComponent()
 
         getTargetVC:HonkAndFlash()
@@ -126,7 +127,7 @@ function Car.Lights(state)
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
 
-    if Util.IsA(Car.objectType, getTarget) then
+    if Util.IsA(Car.objectType, getTarget) or Util.IsA(Car.objectTypeBike, getTarget) then
         local getTargetVC = getTarget:GetVehicleComponent()
         local getTargetVCPS = getTargetVC:GetVehicleControllerPS()
 
@@ -142,7 +143,7 @@ function Car.Engine(state)
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
 
-    if Util.IsA(Car.objectType, getTarget) then
+    if Util.IsA(Car.objectType, getTarget) or Util.IsA(Car.objectTypeBike, getTarget) then
         local getTargetVC = getTarget:GetVehicleComponent()
         local getTargetVCPS = getTargetVC:GetVehicleControllerPS()
 
@@ -162,7 +163,7 @@ function Car.Reset()
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
     
-    if Util.IsA(Car.objectType, getTarget) then
+    if Util.IsA(Car.objectType, getTarget) or Util.IsA(Car.objectTypeBike, getTarget) then
         local getTargetVC = getTarget:GetVehicleComponent()
 
         getTargetVC:ResetVehicle()
@@ -173,7 +174,7 @@ function Car.SetGod()
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
 
-    if Util.IsA(Car.objectType, getTarget) then
+    if Util.IsA(Car.objectType, getTarget) or Util.IsA(Car.objectTypeBike, getTarget) then
         local getTargetVC = getTarget:GetVehicleComponent()
 
         getTargetVC:SetImmortalityMode()

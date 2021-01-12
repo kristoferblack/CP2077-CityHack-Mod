@@ -57,13 +57,31 @@ function Utility.IsA(kind, value)
 end
 
 function Utility.DumpController()
-
+    local player = Game.GetPlayer()
+    print(Dump(Game.GetTargetingSystem():GetLookAtObject(player,false,false):GetController(), false))
 end
 
 -- Bump device persistent state
 function Utility.DumpPS()
     local player = Game.GetPlayer()
     print(Dump(Game.GetTargetingSystem():GetLookAtObject(player,false,false):GetDevicePS(), false))
+end
+
+-- Bump device persistent state
+function Utility.DumpParents()
+    local player = Game.GetPlayer()
+    local devicePS = Game.GetTargetingSystem():GetLookAtObject(player,false,false):GetDevicePS()
+    local deviceParents = devicePS:GetImmediateParents()
+
+    if deviceParents == nil or #deviceParents == 0 then
+        print("No parents found for", devicePS:ToString())
+
+        return
+    end
+
+    for _, parent in ipairs(deviceParents) do
+        print(parent)
+    end
 end
 
 return Utility

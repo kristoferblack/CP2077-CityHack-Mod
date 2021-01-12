@@ -1,8 +1,31 @@
+--      ___           ___           ___           ___                                   ___           ___                 
+--     /  /\         /  /\         /  /\         /__/\        ___           ___        /  /\         /  /\          ___   
+--    /  /::\       /  /::\       /  /:/         \  \:\      /  /\         /  /\      /  /:/_       /  /:/         /  /\  
+--   /  /:/\:\     /  /:/\:\     /  /:/           \__\:\    /  /:/        /  /:/     /  /:/ /\     /  /:/         /  /:/  
+--  /  /:/~/::\   /  /:/~/:/    /  /:/  ___   ___ /  /::\  /__/::\       /  /:/     /  /:/ /:/_   /  /:/  ___    /  /:/   
+-- /__/:/ /:/\:\ /__/:/ /:/___ /__/:/  /  /\ /__/\  /:/\:\ \__\/\:\__   /  /::\    /__/:/ /:/ /\ /__/:/  /  /\  /  /::\   
+-- \  \:\/:/__\/ \  \:\/:::::/ \  \:\ /  /:/ \  \:\/:/__\/    \  \:\/\ /__/:/\:\   \  \:\/:/ /:/ \  \:\ /  /:/ /__/:/\:\  
+--  \  \::/       \  \::/~~~~   \  \:\  /:/   \  \::/          \__\::/ \__\/  \:\   \  \::/ /:/   \  \:\  /:/  \__\/  \:\ 
+--   \  \:\        \  \:\        \  \:\/:/     \  \:\          /__/:/       \  \:\   \  \:\/:/     \  \:\/:/        \  \:\
+--    \  \:\        \  \:\        \  \::/       \  \:\         \__\/         \__\/    \  \::/       \  \::/          \__\/
+--     \__\/         \__\/         \__\/         \__\/                                 \__\/         \__\/                 
+-------------------------------------------------------------------------------------------------------------------------------
+-- This mod was created by Architect from CP2077 Modding Tools Discord. 
+-- https://github.com/specik/CP2077-CityHack-Mod
+--
+-- You are free to use this mod as long as you follow the following license guidelines:
+--    * It may not be uploaded to any other site without my express permission.
+--    * Using any code contained herein in another mod requires full credits.
+--    * You may not fork this code and make your own competing version of this mod available for download.
+-------------------------------------------------------------------------------------------------------------------------------
+
+
 CityHack = { 
     description = "",
     rootPath =  "cityhack."
 }
 
+-- Hack: Forces required lua files to reload when using hot reload
 for k, _ in pairs(package.loaded) do
     if string.match(k, CityHack.rootPath .. ".*") then
         package.loaded[k] = nil
@@ -28,6 +51,7 @@ function CityHack:new()
     --------------------------------------- START localVars ---------------------------------------
 
     local CarLightState = 0
+    local NPCKillRadius = 0
 
 
     --------------------------------------- START ImGui ---------------------------------------
@@ -332,6 +356,7 @@ function CityHack:new()
                         ImGui.Text("Utility")
                         ImGui.Spacing()
 
+                        ---------------- CAR UTILITY ---------------- 
                         if ImGui.Button("Repair Car", style.buttonWidth, style.buttonHeight) then
                             if CityHack.Car.Repair() then
                                 CityHack.Util.Response("car", "repair", true, false)
@@ -399,17 +424,20 @@ function CityHack:new()
 
                     ---------------- NPC TAB ---------------- 
                     if ImGui.BeginTabItem("NPC") then
-                        ImGui.SetWindowSize(265, 120)
+                        ImGui.SetWindowSize(265, 200)
                         ImGui.Spacing()
 
                         ImGui.PushTextWrapPos()
-                        ImGui.Text("You will get police heat by using this!")
+                        ImGui.Text("Currently Looked at NPC")
                         ImGui.PopTextWrapPos()
-
                         ImGui.Spacing()
 
                         if ImGui.Button("Kill", style.buttonWidth, style.buttonHeight) then
-                            CityHack.NPC.Kill()
+                            if CityHack.NPC.Kill() then
+                                CityHack.Util.Response("npc", "kill", true, false)
+                            else
+                                CityHack.Util.Response("npc", "kill", false, false)
+                            end
                         end
 
                     ImGui.EndTabItem()
@@ -417,7 +445,7 @@ function CityHack:new()
 
                     ---------------- UTIL TAB ---------------- 
                     if ImGui.BeginTabItem("Util") then
-                        ImGui.SetWindowSize(265, 200)
+                        ImGui.SetWindowSize(265, 250)
                         ImGui.Spacing()
 
                         ImGui.PushTextWrapPos()
@@ -429,9 +457,17 @@ function CityHack:new()
                         if ImGui.Button("Dump", style.buttonWidth, style.buttonHeight) then
                             CityHack.Util.Dump()
                         end
+
+                        if ImGui.Button("Dump Controller", style.buttonWidth, style.buttonHeight) then
+                            CityHack.Util.DumpController()
+                        end
     
                         if ImGui.Button("Dump Device PS", style.buttonWidth, style.buttonHeight) then
                             CityHack.Util.DumpPS()
+                        end
+
+                        if ImGui.Button("Dump Device Parents", style.buttonWidth, style.buttonHeight) then
+                            CityHack.Util.DumpParents()
                         end
 
                         if ImGui.Button("Dump Vehicle PS", style.buttonWidth, style.buttonHeight) then
