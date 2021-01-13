@@ -4,15 +4,19 @@ UICore = {
 
 function UICore.Create(CityHack)
     ImGui.PushStyleColor(ImGuiCol.Border, 0.56, 0.06, 0.03, 1)
+    ImGui.PushStyleColor(ImGuiCol.PopupBg, 0.353, 0.016, 0.016, 1)
     ImGui.PushStyleColor(ImGuiCol.TitleBg, 0.56, 0.06, 0.03, 0.5)
     ImGui.PushStyleColor(ImGuiCol.TitleBgActive, 0.56, 0.06, 0.03, 0.75)
     ImGui.PushStyleColor(ImGuiCol.TitleBgCollapsed, 0.56, 0.06, 0.03, 0.25)
-    ImGui.PushStyleColor(ImGuiCol.Tab, 1, 0.2, 0.2, 0.5)
-    ImGui.PushStyleColor(ImGuiCol.TabHovered, 1, 0.2, 0.2, 0.85)
-    ImGui.PushStyleColor(ImGuiCol.TabActive, 1, 0.2, 0.2, 1)
+    ImGui.PushStyleColor(ImGuiCol.Tab, 0.56, 0.06, 0.03, 0.5)
+    ImGui.PushStyleColor(ImGuiCol.TabHovered, 0.56, 0.06, 0.03, 0.85)
+    ImGui.PushStyleColor(ImGuiCol.TabActive, 0.56, 0.06, 0.03, 1)
     ImGui.PushStyleColor(ImGuiCol.Button, 0.56, 0.06, 0.03, 0.50)
     ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0.56, 0.06, 0.03, 0.75)
     ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0.56, 0.06, 0.03, 1)
+    ImGui.PushStyleColor(ImGuiCol.FrameBg, 0.56, 0.06, 0.03, 0.50)
+    ImGui.PushStyleColor(ImGuiCol.FrameBgHovered, 0.56, 0.06, 0.03, 0.75)
+    ImGui.PushStyleColor(ImGuiCol.FrameBgActive, 0.56, 0.06, 0.03, 1)
     ImGui.PushStyleColor(ImGuiCol.ResizeGrip, 0.56, 0.06, 0.03, 0.6)
     ImGui.PushStyleColor(ImGuiCol.ResizeGripHovered, 0.56, 0.06, 0.03, 0.75)
     ImGui.PushStyleColor(ImGuiCol.ResizeGripActive, 0.56, 0.06, 0.03, 1)
@@ -22,7 +26,7 @@ function UICore.Create(CityHack)
 
     UICore.DoorUI = require(UICore.rootPath.."ui.modules.door")
     UICore.DeviceUI = require(UICore.rootPath.."ui.modules.device")
-    UICore.CarUI = require(UICore.rootPath.."ui.modules.car")
+    UICore.VehicleUI = require(UICore.rootPath.."ui.modules.vehicle")
     UICore.NpcUI = require(UICore.rootPath.."ui.modules.npc")
     UICore.UtilUI = require(UICore.rootPath.."ui.modules.util")
 
@@ -43,7 +47,7 @@ function UICore.Create(CityHack)
             UICore.DeviceUI.Create(CityHack, style)
 
             ---------------- CARS TAB ---------------- 
-            UICore.CarUI.Create(CityHack, style)
+            UICore.VehicleUI.Create(CityHack, style)
 
             ---------------- NPC TAB ---------------- 
             UICore.NpcUI.Create(CityHack, style)
@@ -55,7 +59,7 @@ function UICore.Create(CityHack)
         ImGui.EndTabBar()
         
     end
-    ImGui.PopStyleColor(14)
+    ImGui.PopStyleColor(18)
     ImGui.End()
 end
 

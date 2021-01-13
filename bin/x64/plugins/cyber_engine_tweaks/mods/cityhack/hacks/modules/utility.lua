@@ -80,7 +80,7 @@ function Utility.DumpParents()
     end
 
     for _, parent in ipairs(deviceParents) do
-        print(parent)
+        print(Dump(parent, false))
     end
 end
 

@@ -40,7 +40,7 @@ function CityHack:new()
     CityHack.Door = require(CityHack.rootPath.."hacks.modules.door")
     CityHack.Elevator = require(CityHack.rootPath.."hacks.modules.elevator")
     CityHack.Device = require(CityHack.rootPath.."hacks.modules.device")
-    CityHack.Car = require(CityHack.rootPath.."hacks.modules.car")
+    CityHack.Vehicle = require(CityHack.rootPath.."hacks.modules.vehicle")
     CityHack.Npc = require(CityHack.rootPath.."hacks.modules.npc")
     CityHack.Util = require(CityHack.rootPath.."hacks.modules.utility")
 
@@ -50,7 +50,7 @@ function CityHack:new()
 
     --------------------------------------- START ImGui ---------------------------------------
 
-    registerVKBind("CityHack_Menu", "toggle_window", { 0x71 }, function()
+    registerVKBind("CityHack_Menu", "Toggle Window", { 0x71 }, function()
         drawWindow = not drawWindow
     end)
     

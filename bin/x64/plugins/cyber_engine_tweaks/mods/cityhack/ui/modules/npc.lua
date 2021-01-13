@@ -19,6 +19,16 @@ function NpcUI.Create(CityHack, style)
             end
         end
 
+        -- if ImGui.Button("Make Vendor", style.buttonWidth, style.buttonHeight) then
+        --     player = Game.GetPlayer()
+        --     ssc = Game.GetScriptableSystemsContainer()
+        --     ms = ssc:Get('MarketSystem')
+        --     ts = Game.GetTargetingSystem()
+
+        --     trg = ts:GetLookAtObject(player, false, false)
+        --     ms:AddVendor(trg)
+        -- end
+
     ImGui.EndTabItem()
     end
 
