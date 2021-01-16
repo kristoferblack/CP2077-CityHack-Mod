@@ -3,63 +3,63 @@ UICore = {
 }
 
 function UICore.Create(CityHack)
-    ImGui.PushStyleColor(ImGuiCol.Border, 0.56, 0.06, 0.03, 1)
-    ImGui.PushStyleColor(ImGuiCol.PopupBg, 0.353, 0.016, 0.016, 1)
-    ImGui.PushStyleColor(ImGuiCol.TitleBg, 0.56, 0.06, 0.03, 0.5)
-    ImGui.PushStyleColor(ImGuiCol.TitleBgActive, 0.56, 0.06, 0.03, 0.75)
-    ImGui.PushStyleColor(ImGuiCol.TitleBgCollapsed, 0.56, 0.06, 0.03, 0.25)
-    ImGui.PushStyleColor(ImGuiCol.Tab, 0.56, 0.06, 0.03, 0.5)
-    ImGui.PushStyleColor(ImGuiCol.TabHovered, 0.56, 0.06, 0.03, 0.85)
-    ImGui.PushStyleColor(ImGuiCol.TabActive, 0.56, 0.06, 0.03, 1)
-    ImGui.PushStyleColor(ImGuiCol.Button, 0.56, 0.06, 0.03, 0.50)
-    ImGui.PushStyleColor(ImGuiCol.ButtonHovered, 0.56, 0.06, 0.03, 0.75)
-    ImGui.PushStyleColor(ImGuiCol.ButtonActive, 0.56, 0.06, 0.03, 1)
-    ImGui.PushStyleColor(ImGuiCol.FrameBg, 0.56, 0.06, 0.03, 0.50)
-    ImGui.PushStyleColor(ImGuiCol.FrameBgHovered, 0.56, 0.06, 0.03, 0.75)
-    ImGui.PushStyleColor(ImGuiCol.FrameBgActive, 0.56, 0.06, 0.03, 1)
-    ImGui.PushStyleColor(ImGuiCol.ResizeGrip, 0.56, 0.06, 0.03, 0.6)
-    ImGui.PushStyleColor(ImGuiCol.ResizeGripHovered, 0.56, 0.06, 0.03, 0.75)
-    ImGui.PushStyleColor(ImGuiCol.ResizeGripActive, 0.56, 0.06, 0.03, 1)
-    ImGui.PushStyleColor(ImGuiCol.Separator, 0.56, 0.06, 0.03, 0.6)
-    -- ImGui.PushStyleColor(ImGuiCol.ComboBg, 0, 0, 0, 1) -- does not work 
-    
+    UICore.Theme = require(UICore.rootPath.."ui.theme")
+    UICore.Observer = require(UICore.rootPath.."observer")
 
     UICore.DoorUI = require(UICore.rootPath.."ui.modules.door")
     UICore.DeviceUI = require(UICore.rootPath.."ui.modules.device")
     UICore.VehicleUI = require(UICore.rootPath.."ui.modules.vehicle")
     UICore.NpcUI = require(UICore.rootPath.."ui.modules.npc")
     UICore.UtilUI = require(UICore.rootPath.."ui.modules.util")
+    
+
+    UICore.Theme.Start()
 
 
     if ImGui.Begin("CITY H4CK") then
-        
-        local style = {
+
+        ImGui.SetWindowFontScale(0.9)
+
+        local Style = {
             buttonWidth = -1,
             buttonHeight = 35,
             halfButtonWidth = ((ImGui.GetWindowContentRegionWidth() / 2) - 4.3)
         }
 
-        if ImGui.BeginTabBar("CITYH4CKTABS") then
+        if ImGui.BeginChild("Name", -1, 65, true) then
+            Theme.PushStyleColor(ImGuiCol.Text,	UICore.Theme.CustomToggleOn)
+            ImGui.LabelText("##","LOOKING AT")
+            ImGui.PopStyleColor()
+            ImGui.Text(tostring(UICore.Observer.LookedObject()))
+        end
+        ImGui.EndChild()
+
+        ImGui.Spacing()
+        ImGui.Spacing()
+        ImGui.Spacing()
+
+
+        if ImGui.BeginTabBar("CITYH4CKTABS", ImGuiTabBarFlags.Reorderable) then
             ---------------- DOORS TAB ---------------- 
-            UICore.DoorUI.Create(CityHack, style)
+            UICore.DoorUI.Create(CityHack, Style, UICore.Observer)
             
             ---------------- DEVICES TAB ---------------- 
-            UICore.DeviceUI.Create(CityHack, style)
+            UICore.DeviceUI.Create(CityHack, Style, UICore.Observer)
 
             ---------------- CARS TAB ---------------- 
-            UICore.VehicleUI.Create(CityHack, style)
+            UICore.VehicleUI.Create(CityHack, Style, UICore.Observer)
 
             ---------------- NPC TAB ---------------- 
-            UICore.NpcUI.Create(CityHack, style)
+            UICore.NpcUI.Create(CityHack, Style, UICore.Observer)
 
             ---------------- UTIL TAB ---------------- 
-            UICore.UtilUI.Create(CityHack, style)
+            UICore.UtilUI.Create(CityHack, Style)
 
         end
         ImGui.EndTabBar()
         
     end
-    ImGui.PopStyleColor(18)
+    UICore.Theme.End()
     ImGui.End()
 end
 

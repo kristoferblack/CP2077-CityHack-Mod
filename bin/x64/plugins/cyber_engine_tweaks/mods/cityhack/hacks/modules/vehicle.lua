@@ -1,7 +1,8 @@
 local Vehicle = {
     rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
     objectType = "vehicleCarBaseObject",
-    objectTypeBike = "vehicleBikeBaseObject"
+    objectTypeBike = "vehicleBikeBaseObject",
+    objectTypeAV = "vehicleAVBaseObject"
 }
 
 local Util = require(Vehicle.rootPath.."hacks.modules.utility")
@@ -18,7 +19,7 @@ function Vehicle.Doors(state)
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
 
-    if Util.IsA(Vehicle.objectType, getTarget) then
+    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeAV, getTarget) then
         local getTargetPS = getTarget:GetVehiclePS()
         
         if state == "open" then
@@ -127,7 +128,7 @@ function Vehicle.Lights(state)
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
 
-    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeBike, getTarget) then
+    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeBike, getTarget) or Util.IsA(Vehicle.objectTypeAV, getTarget) then
         local getTargetVC = getTarget:GetVehicleComponent()
         local getTargetVCPS = getTargetVC:GetVehicleControllerPS()
 
@@ -143,7 +144,7 @@ function Vehicle.Engine(state)
     local getPlayer = Game.GetPlayer()
     local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
 
-    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeBike, getTarget) then
+    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeBike, getTarget) or Util.IsA(Vehicle.objectTypeAV, getTarget) then
         local getTargetVC = getTarget:GetVehicleComponent()
         local getTargetVCPS = getTargetVC:GetVehicleControllerPS()
 
@@ -183,6 +184,40 @@ function Vehicle.SetGod()
     else
         return false
     end
+end
+
+function Vehicle.ToggleSummonMode()
+    local vehicleSystem = Game.GetVehicleSystem()
+
+    vehicleSystem:ToggleSummonMode()
+
+    return true
+end
+
+function Vehicle.CycleAppearance()
+    local getPlayer = Game.GetPlayer()
+    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+
+    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeBike, getTarget) then
+        getTarget:ScheduleAppearanceChange("Randomize")
+        
+        return true
+    else
+        return false
+    end
+end
+
+function Vehicle.Despawn()
+    local player = Game.GetPlayer()
+    local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
+    local vehicleSystem = Game.GetVehicleSystem()
+    local id = target:GetRecord():GetID()
+
+    print(id)
+    vehicleSystem.DespawnPlayerVehicle(id)
+
+    --print(Game.GetTargetingSystem():GetLookAtObject(Game.GetPlayer(), false, false):GetRecord())
+
 end
 
 function Vehicle.DumpPS()

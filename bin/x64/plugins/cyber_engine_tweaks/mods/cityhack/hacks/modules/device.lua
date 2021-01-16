@@ -3,53 +3,63 @@ local Device = {
 }
 local Util = require(Device.rootPath.."hacks.modules.utility")
 
-function Device.On()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+function Device.State(state)
+    local player = Game.GetPlayer()
+    local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
+    local targetPS = target:GetDevicePS()
 
-    getTarget:TurnOnDevice()
+    if state == "PowerOn" then
+        target:TurnOnDevice()
+
+        if targetPS then targetPS:PowerDevice() end
+        
+        Device.State("Activate")
+
+    elseif state == "PowerOff" then
+        target:TurnOffDevice()
+
+        if targetPS then targetPS:UnpowerDevice() end
+
+        Device.State("Dectivate")
+    
+    elseif state == "PowerCut" then
+        target:CutPower()
+
+    elseif state == "Activate" then
+        target:ActivateDevice()
+    
+    elseif state == "Deactivate" then
+        target:DeactivateDevice()
+
+    elseif state == "ScreenOn" then
+        target:TurnOnScreen()
+    
+    elseif state == "ScreenOff" then
+        target:TurnOffScreen()
+    end
 end
 
-function Device.Off()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+function Device.VendingMachine(action)
+    if action == "DispenseAll" and Util.IsA("VendingMachine") then
+        local player = Game.GetPlayer()
+        local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
+        local targetPS = target:GetDevicePS()
+        local scriptSystem =  Game.GetScriptableSystemsContainer()
+        local marketSystem = scriptSystem:Get('MarketSystem')
+        local vendor = marketSystem:GetVendor(target)
 
-    getTarget:TurnOffDevice()
-end
+        for _, item in ipairs(vendor:GetStock()) do
+            local quantity = item.quantity
 
-function Device.Activate()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+            for i = 1, quantity do
+                local dispenseRequest = target:CreateDispenseRequest(false, items)
+                target:DispenseItems(dispenseRequest)
+            end
+        end
 
-    getTarget:ActivateDevice()
-end
-
-function Device.Deactivate()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    getTarget:DeactivateDevice()
-end
-
-function Device.ScreenOn()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    getTarget:TurnOnScreen()
-end
-
-function Device.ScreenOff()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    getTarget:TurnOffScreen()
-end
-
-function Device.CutPower()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    getTarget:CutPower()
+    else
+        Util.Response("Vending Machine", "Dispense All", false, "Not looking at Vending Machine")
+    end
 end
 
 return Device

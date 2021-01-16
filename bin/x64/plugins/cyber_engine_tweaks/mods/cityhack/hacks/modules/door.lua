@@ -1,45 +1,57 @@
 local Door = {
     rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
 }
+
 local Util = require(Door.rootPath.."hacks.modules.utility")
 
 function Door.Toggle(state)
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+    local player = Game.GetPlayer()
+    local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
 
-    if Util.IsA("Door", getTarget) then
-        local getTargetPS = getTarget:GetDevicePS()
+    if Util.IsA("Door", target) then
+        local targetPS = target:GetDevicePS()
 
         if state == "open" then
-            getTargetPS:SetNewDoorType(1)
-            getTargetPS:InitializeDoorTypes()
+            targetPS:SetNewDoorType(1)
+            targetPS:InitializeDoorTypes()
 
-            if getTargetPS:IsLocked() then getTargetPS:ToggleLockOnDoor() end
-            if getTargetPS:IsSealed() then getTargetPS:ToggleSealOnDoor() end
+            if targetPS:IsLocked() then targetPS:ToggleLockOnDoor() end
+            if targetPS:IsSealed() then targetPS:ToggleSealOnDoor() end
 
-            getTarget:OpenDoor()
+            target:OpenDoor()
 
         elseif state == "close" then
-            getTarget:CloseDoor()
+            target:CloseDoor()
+
         end
 
         return true
 
-    elseif Util.IsA("FakeDoor", getTarget) then
-        getTarget:Dispose()
+    else
+        return false
+    end
+end
+
+function Door.Dispose()
+    local player = Game.GetPlayer()
+    local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
+
+    if Util.IsA("FakeDoor", target) then
+        target:Dispose()
 
         return true
+
     else
         return false
     end
 end
 
 function Door.SetType(type)
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+    local player = Game.GetPlayer()
+    local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
 
     if Util.IsA("Door", getTarget) then
-        local getTargetPS = getTarget:GetDevicePS()
+        local targetPS = target:GetDevicePS()
 
         --- DOOR TYPES ---
         -- NONE = 0,
@@ -48,13 +60,13 @@ function Door.SetType(type)
         -- PHYSICAL = 3,
         -- REMOTELY_CONTROLLED = 4
 
-        getTargetPS:SetNewDoorType(type)
-        getTargetPS:InitializeDoorTypes()
+        targetPS:SetNewDoorType(type)
+        targetPS:InitializeDoorTypes()
 
-        if getTargetPS:IsLocked() then getTargetPS:ToggleLockOnDoor() end
-        if getTargetPS:IsSealed() then getTargetPS:ToggleSealOnDoor() end
+        if targetPS:IsLocked() then targetPS:ToggleLockOnDoor() end
+        if targetPS:IsSealed() then targetPS:ToggleSealOnDoor() end
 
-        getTarget:OpenDoor()
+        target:OpenDoor()
 
         return true
     else
@@ -63,13 +75,13 @@ function Door.SetType(type)
 end
 
 function Door.ToggleLock()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+    local player = Game.GetPlayer()
+    local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
 
-    if Util.IsA("Door", getTarget) then
-        local getTargetPS = getTarget:GetDevicePS()
+    if Util.IsA("Door", target) then
+        local targetPS = getTarget:GetDevicePS()
 
-        getTargetPS:ToggleLockOnDoor()
+        targetPS:ToggleLockOnDoor()
 
         return true
     else
@@ -78,13 +90,13 @@ function Door.ToggleLock()
 end
 
 function Door.ToggleSeal()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+    local player = Game.GetPlayer()
+    local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
 
-    if Util.IsA("Door", getTarget) then
-        local getTargetPS = getTarget:GetDevicePS()
+    if Util.IsA("Door", target) then
+        local targetPS = target:GetDevicePS()
 
-        getTargetPS:ToggleSealOnDoor()
+        targetPS:ToggleSealOnDoor()
 
         return true
     else
@@ -93,13 +105,13 @@ function Door.ToggleSeal()
 end
     
 function Door.Reset()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+    local player = Game.GetPlayer()
+    local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
     
-    if Util.IsA("Door", getTarget) then
-        local getTargetPS = getTarget:GetDevicePS()
+    if Util.IsA("Door", target) then
+        local targetPS = target:GetDevicePS()
 
-        getTargetPS:ResetToDefault()
+        targetPS:ResetToDefault()
 
         return true
     else

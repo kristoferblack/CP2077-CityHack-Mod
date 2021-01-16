@@ -6,6 +6,16 @@ function Utility.Log(input)
     print(Utility.prefix..input)
 end
 
+function Utility.IfArrayHasValue(items, val)
+    for index, value in ipairs(items) do
+        if value == val then
+            return true
+        end
+    end
+
+    return false
+end
+
 function Utility.Response(system, action, result, context)
 
     separator = " - "
@@ -20,7 +30,7 @@ function Utility.Response(system, action, result, context)
     if result then
         result = "SUCCESS"
     else
-        result = "FAILURE"
+        result = "FAILURE"`
         contextSeparator = separator
         context = "Not looking at correct object type"
     end
@@ -81,6 +91,22 @@ function Utility.DumpParents()
 
     for _, parent in ipairs(deviceParents) do
         print(Dump(parent, false))
+    end
+end
+
+function Utility.PlayerVehicles()
+    local player = Game.GetPlayer()
+    local target = Game.GetTargetingSystem():GetLookAtObject(player,false,false)
+    local unlockedVehicles = Game.GetVehicleSystem():GetPlayerUnlockedVehicles()
+
+    if unlockedVehicles == nil or #unlockedVehicles == 0 then
+        print("No parents found for", devicePS:ToString())
+
+        return
+    end
+
+    for _, vehicle in ipairs(unlockedVehicles) do
+        print(vehicle.recordID)
     end
 end
 

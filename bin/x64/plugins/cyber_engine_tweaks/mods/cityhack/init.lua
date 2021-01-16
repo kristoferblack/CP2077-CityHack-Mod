@@ -17,6 +17,8 @@
 --    * It may not be uploaded to any other site without my express permission.
 --    * Using any code contained herein in another mod requires full credits.
 --    * You may not fork this code and make your own competing version of this mod available for download.
+--
+-- Full license available at https://github.com/specik/CP2077-CityHack-Mod/blob/main/LICENSE.md
 -------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -36,6 +38,9 @@ function CityHack:new()
 
     setmetatable(CityHack, self)
     self.__index = self 
+    input = "test"
+
+    -- START ImGui ---------------------------------------------------------------------------
 
     CityHack.Door = require(CityHack.rootPath.."hacks.modules.door")
     CityHack.Elevator = require(CityHack.rootPath.."hacks.modules.elevator")
@@ -44,29 +49,36 @@ function CityHack:new()
     CityHack.Npc = require(CityHack.rootPath.."hacks.modules.npc")
     CityHack.Util = require(CityHack.rootPath.."hacks.modules.utility")
 
+    CityHack.Observer = require(CityHack.rootPath.."observer")
+
+
+    -- START CoreUI --------------------------------------------------------------------------
 
     CityHack.CoreUI = require(CityHack.rootPath.."ui.core")
 
 
-    --------------------------------------- START ImGui ---------------------------------------
+    -- START Hotkeys -------------------------------------------------------------------------
 
-    registerVKBind("CityHack_Menu", "Toggle Window", { 0x71 }, function()
+    registerHotkey("CityHack_Menu", "Toggle_Window", function()
         drawWindow = not drawWindow
     end)
+
+
+    -- START Events --------------------------------------------------------------------------
     
     registerForEvent("onInit", function()
         CityHack.Util.Log("Loaded! Press F2 to toggle the UI.")
     end)
       
     registerForEvent("onUpdate", function(deltaTime)
-
+        CityHack.Observer.Tick(deltaTime)
     end)
 
-    registerForEvent("onToolbarOpen", function()
+    registerForEvent("onOverlayOpen", function()
         drawWindow = true
       end)
       
-    registerForEvent("onToolbarClose", function()
+    registerForEvent("onOverlayClose", function()
         drawWindow = false
     end)
 
