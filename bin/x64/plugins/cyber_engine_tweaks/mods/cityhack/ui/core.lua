@@ -2,19 +2,20 @@ UICore = {
     rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack."
 }
 
+UICore.Theme = require(UICore.rootPath.."ui.theme")
+
 function UICore.Create(CityHack)
-    UICore.Theme = require(UICore.rootPath.."ui.theme")
     UICore.Observer = require(UICore.rootPath.."observer")
 
     UICore.DoorUI = require(UICore.rootPath.."ui.modules.door")
     UICore.DeviceUI = require(UICore.rootPath.."ui.modules.device")
     UICore.VehicleUI = require(UICore.rootPath.."ui.modules.vehicle")
     UICore.NpcUI = require(UICore.rootPath.."ui.modules.npc")
+    UICore.OtherUI = require(UICore.rootPath.."ui.modules.other")
     UICore.UtilUI = require(UICore.rootPath.."ui.modules.util")
     
 
     UICore.Theme.Start()
-
 
     if ImGui.Begin("CITY H4CK") then
 
@@ -26,10 +27,8 @@ function UICore.Create(CityHack)
             halfButtonWidth = ((ImGui.GetWindowContentRegionWidth() / 2) - 4.3)
         }
 
-        if ImGui.BeginChild("Name", -1, 65, true) then
-            Theme.PushStyleColor(ImGuiCol.Text,	UICore.Theme.CustomToggleOn)
-            ImGui.LabelText("##","LOOKING AT")
-            ImGui.PopStyleColor()
+        if ImGui.BeginChild("ObserverChild", -1, 70, true) then
+            UICore.Theme.DisplayLabel("Looking At")
             ImGui.Text(tostring(UICore.Observer.LookedObject()))
         end
         ImGui.EndChild()
@@ -39,7 +38,7 @@ function UICore.Create(CityHack)
         ImGui.Spacing()
 
 
-        if ImGui.BeginTabBar("CITYH4CKTABS", ImGuiTabBarFlags.Reorderable) then
+        if ImGui.BeginTabBar("CITYH4CKTABS", ImGuiTabBarFlags.AutoSelectNewTabs) then
             ---------------- DOORS TAB ---------------- 
             UICore.DoorUI.Create(CityHack, Style, UICore.Observer)
             
@@ -51,6 +50,9 @@ function UICore.Create(CityHack)
 
             ---------------- NPC TAB ---------------- 
             UICore.NpcUI.Create(CityHack, Style, UICore.Observer)
+
+            ---------------- OTHER TAB ---------------- 
+            UICore.OtherUI.Create(CityHack, Style, UICore.Observer)
 
             ---------------- UTIL TAB ---------------- 
             UICore.UtilUI.Create(CityHack, Style)

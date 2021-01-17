@@ -3,7 +3,7 @@ local Device = {
 }
 local Util = require(Device.rootPath.."hacks.modules.utility")
 
-function Device.State(state)
+function Device.State(state, param)
     local player = Game.GetPlayer()
     local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
     local targetPS = target:GetDevicePS()
@@ -36,17 +36,29 @@ function Device.State(state)
     
     elseif state == "ScreenOff" then
         target:TurnOffScreen()
+
+    elseif state == "StartGlitching" then
+        target:StartGlitching(1, 0.2)
+
+    elseif state == "StopGlitching" then
+        target:StopGlitching()
+
+    elseif state == "SetChannel" then
+        target:SelectChannel(param)
+
     end
 end
 
 function Device.VendingMachine(action)
-    if action == "DispenseAll" and Util.IsA("VendingMachine") then
+    if action == "DispenseAll" then
         local player = Game.GetPlayer()
         local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
         local targetPS = target:GetDevicePS()
         local scriptSystem =  Game.GetScriptableSystemsContainer()
         local marketSystem = scriptSystem:Get('MarketSystem')
         local vendor = marketSystem:GetVendor(target)
+
+        vendor:RegenerateStock()
 
         for _, item in ipairs(vendor:GetStock()) do
             local quantity = item.quantity
@@ -56,6 +68,8 @@ function Device.VendingMachine(action)
                 target:DispenseItems(dispenseRequest)
             end
         end
+
+        target:PlayItemFall()
 
     else
         Util.Response("Vending Machine", "Dispense All", false, "Not looking at Vending Machine")

@@ -1,13 +1,16 @@
-UtilUI = {}
+UtilUI = {
+    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
+}
+
+local Theme = require(UtilUI.rootPath.."ui.theme")
 
 function UtilUI.Create(CityHack, style) 
 
-    Theme.PushStyleColor(ImGuiCol.Text,	Theme.TextWhite)
+    Theme.TabStart()
+
     if ImGui.BeginTabItem("Util") then
-        ImGui.PopStyleColor()
-        Theme.PushStyleColor(ImGuiCol.Text,	Theme.Text)
-        ImGui.SetWindowSize(280, 360)
-        ImGui.Spacing()
+        Theme.TabInner()
+        ImGui.SetWindowSize(280, 460)
 
         ImGui.PushTextWrapPos()
         Theme.PushStyleColor(ImGuiCol.Text,	Theme.CustomToggleOn)
@@ -41,6 +44,10 @@ function UtilUI.Create(CityHack, style)
 
         if ImGui.Button("Dump Player Vehicles", style.buttonWidth, style.buttonHeight) then
             CityHack.Util.PlayerVehicles()
+        end
+
+        if ImGui.Button("Dump Vendor Stock", style.buttonWidth, style.buttonHeight) then
+            CityHack.Util.DumpVendorItems()
         end
     ImGui.EndTabItem()
     end

@@ -30,7 +30,7 @@ function Utility.Response(system, action, result, context)
     if result then
         result = "SUCCESS"
     else
-        result = "FAILURE"`
+        result = "FAILURE"
         contextSeparator = separator
         context = "Not looking at correct object type"
     end
@@ -108,6 +108,29 @@ function Utility.PlayerVehicles()
     for _, vehicle in ipairs(unlockedVehicles) do
         print(vehicle.recordID)
     end
+end
+
+function Utility.DumpVendorItems()
+    local player = Game.GetPlayer()
+    local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
+    local targetPS = target:GetDevicePS()
+    local scriptSystem =  Game.GetScriptableSystemsContainer()
+    local marketSystem = scriptSystem:Get('MarketSystem')
+    local vendor = marketSystem:GetVendor(target)
+
+    -- vendor:RegenerateStock()
+
+    for _, item in ipairs(vendor:GetStock()) do
+        local quantity = item.quantity
+
+        print(item.itemID)
+        -- for i = 1, quantity do
+        --     local dispenseRequest = target:CreateDispenseRequest(false, items)
+        --     target:DispenseItems(dispenseRequest)
+        -- end
+    end
+
+    -- target:PlayItemFall()
 end
 
 return Utility

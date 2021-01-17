@@ -11,16 +11,16 @@ local VehicleUI = {
     }
 }
 
+local Theme = require(VehicleUI.rootPath.."ui.theme")
 local Util = require(VehicleUI.rootPath.."hacks.modules.utility")
 
 function VehicleUI.Create(CityHack, Style, Observer)
 
-    Theme = require(VehicleUI.rootPath.."ui.theme")
-
     if Util.IfArrayHasValue(VehicleUI.ValidVehicleTypes, Observer.LookedObject()) then
 
         Theme.PushStyleColor(ImGuiCol.Text,	Theme.TextWhite)
-        if ImGui.BeginTabItem("Vehicles", true) then
+
+        if ImGui.BeginTabItem("Vehicles") then
             ImGui.PopStyleColor()
             Theme.PushStyleColor(ImGuiCol.Text,	Theme.Text)
             ImGui.SetWindowSize(280, 545)

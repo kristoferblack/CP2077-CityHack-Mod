@@ -55,12 +55,10 @@ function Elevator.RestoreAccess()
     local obj = Game.GetTargetingSystem():GetLookAtObject(Game.GetPlayer(), false, false)
  
     if obj and obj:IsExactlyA("ElevatorFloorTerminal") then
-        CityHack.Utility.Log("ELEVATOR ACCESS RESTORED")
         return handleFloorTerminal(obj)
     end
  
     if obj and obj:IsExactlyA("LiftDevice") then
-        CityHack.Utility.Log("ELEVATOR ACCESS RESTORED")
         return handleLiftControllerPS(obj:GetDevicePS())
     end
  

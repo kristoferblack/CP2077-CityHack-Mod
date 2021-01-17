@@ -24,7 +24,8 @@
 
 CityHack = { 
     description = "",
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack."
+    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
+    drawWindow = false
 }
 
 -- Hack: Forces required lua files to reload when using hot reload
@@ -38,7 +39,6 @@ function CityHack:new()
 
     setmetatable(CityHack, self)
     self.__index = self 
-    input = "test"
 
     -- START ImGui ---------------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ function CityHack:new()
     CityHack.Elevator = require(CityHack.rootPath.."hacks.modules.elevator")
     CityHack.Device = require(CityHack.rootPath.."hacks.modules.device")
     CityHack.Vehicle = require(CityHack.rootPath.."hacks.modules.vehicle")
-    CityHack.Npc = require(CityHack.rootPath.."hacks.modules.npc")
+    CityHack.NPC = require(CityHack.rootPath.."hacks.modules.npc")
     CityHack.Util = require(CityHack.rootPath.."hacks.modules.utility")
 
     CityHack.Observer = require(CityHack.rootPath.."observer")
@@ -56,11 +56,10 @@ function CityHack:new()
 
     CityHack.CoreUI = require(CityHack.rootPath.."ui.core")
 
-
     -- START Hotkeys -------------------------------------------------------------------------
 
     registerHotkey("CityHack_Menu", "Toggle_Window", function()
-        drawWindow = not drawWindow
+        CityHack.drawWindow = not CityHack.drawWindow
     end)
 
 
@@ -75,24 +74,23 @@ function CityHack:new()
     end)
 
     registerForEvent("onOverlayOpen", function()
-        drawWindow = true
+        CityHack.drawWindow = true
       end)
       
     registerForEvent("onOverlayClose", function()
-        drawWindow = false
+        CityHack.drawWindow = false
     end)
 
     registerForEvent("onDraw", function()
-        ImGui.SetNextWindowPos(500, 500, ImGuiCond.FirstUseEver)
+        ImGui.SetNextWindowPos(500, 0, ImGuiCond.FirstUseEver)
         ImGui.SetNextWindowSize(265, 250, ImGuiCond.Appearing)
 
-        if drawWindow then
+        if CityHack.drawWindow then
 
             CityHack.CoreUI.Create(CityHack)
 
         end
     end)    
-      
 
 	return CityHack
 end

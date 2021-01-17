@@ -7,7 +7,7 @@ local Theme = {
 	PopupBg                             =           { 0.06, 0.04, 0.06, 0.8  },
 	Border                              =           { 0.3 , 0.07, 0.08, 1    },
 	BorderShadow                        =           { 0   , 0   , 0   , 0    },
-	FrameBg                             =           { 0.57, 0.17, 0.16, 0.5    },
+	FrameBg                             =           { 0.57, 0.17, 0.16, 0.5  },
 	FrameBgHovered                      =           { 0.32, 0.09, 0.11, 1    },
 	FrameBgActive                       =           { 0.1 , 0.05, 0.05, 1    },
 	FrameBgDisabled                     =           { 0.48, 0.39, 0.40, 1    },
@@ -65,7 +65,7 @@ local Theme = {
 	CustomToggleOffText                 =           { 1   , 0.44, 0.4 , 1    },
 	CustomToggleOffDisable              =           { 0.1 , 0.04, 0.07, 1    },
 	CustomToggleOffDisableHovered       =           { 0.16, 0.06, 0.07, 1    },
-	CustomToggleOffDisableText          =           { 0.22, 0.07, 0.07, 1    }
+	CustomToggleOffDisableText          =           { 0.22, 0.07, 0.07, 1    },
 }
 
 function Theme.PushStyleColor(style, color)
@@ -97,6 +97,29 @@ end
 
 function Theme.End()
 	ImGui.PopStyleColor(20)
+end
+
+function Theme.DisplayLabel(text)
+	if not text then text = "Missing Text!" end
+
+	Theme.PushStyleColor(ImGuiCol.Text,	Theme.CustomToggleOn)
+	ImGui.LabelText("##", text:upper())
+	ImGui.PopStyleColor()
+	ImGui.Spacing()
+end
+
+function Theme.TabStart()
+	Theme.PushStyleColor(ImGuiCol.Text,	Theme.TextWhite)
+end
+
+function Theme.TabInner()
+	ImGui.PopStyleColor()
+	Theme.PushStyleColor(ImGuiCol.Text,	Theme.Text)
+	ImGui.Spacing()
+end
+
+function Theme.TabEnd()
+	ImGui.EndTabItem()
 end
 
 return Theme

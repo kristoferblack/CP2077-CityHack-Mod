@@ -4,6 +4,7 @@ local Car = {
     objectTypeBike = "vehicleBikeBaseObject"
 }
 
+local Theme = require(Car.rootPath.."ui.theme")
 local Util = require(Car.rootPath.."hacks.modules.utility")
 
 function Car.SetAsPlayerVehicle()
@@ -23,10 +24,13 @@ function Car.Doors(state)
         
         if state == "open" then
             getTargetPS:OpenAllRegularVehDoors()
+
         elseif state == "close" then
             getTargetPS:CloseAllVehDoors()
+
         elseif state == "lock" then
             getTargetPS:LockAllVehDoors()
+            
         elseif state == "unlock" then
             getTargetPS:UnlockAllVehDoors()
         end
