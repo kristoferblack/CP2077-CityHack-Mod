@@ -18,19 +18,14 @@ function VehicleUI.Create(CityHack, Style, Observer)
 
     if Util.IfArrayHasValue(VehicleUI.ValidVehicleTypes, Observer.LookedObject()) then
 
-        Theme.PushStyleColor(ImGuiCol.Text,	Theme.TextWhite)
+        Theme.TabStart()
 
         if ImGui.BeginTabItem("Vehicles") then
-            ImGui.PopStyleColor()
-            Theme.PushStyleColor(ImGuiCol.Text,	Theme.Text)
-            ImGui.SetWindowSize(280, 545)
-            ImGui.Spacing()
+            Theme.TabInner()
+            ImGui.SetWindowSize(280, 630)
 
             ---------------- CAR DOORS ---------------- 
-            Theme.PushStyleColor(ImGuiCol.Text,	Theme.CustomToggleOn)
-            ImGui.LabelText("##","DOORS")
-            ImGui.PopStyleColor()
-            ImGui.Spacing()
+            Theme.DisplayLabel("Doors")
 
             ImGui.Columns(2, "CarDoors", false)
             if ImGui.Button("Open All", Style.buttonWidth, Style.buttonHeight) then
@@ -74,10 +69,8 @@ function VehicleUI.Create(CityHack, Style, Observer)
 
             ---------------- CAR WINDOWS ---------------- 
             ImGui.Columns(2, "CarWindows", false)
-            Theme.PushStyleColor(ImGuiCol.Text,	Theme.CustomToggleOn)
-            ImGui.LabelText("##","WINDOWS")
-            ImGui.PopStyleColor()
-            ImGui.Spacing()
+
+            Theme.DisplayLabel("Windows")
 
             ImGui.PushID("CarWindowOpenAll")
             if ImGui.Button("Open All", Style.buttonWidth, Style.buttonHeight) then
@@ -130,10 +123,8 @@ function VehicleUI.Create(CityHack, Style, Observer)
 
             ---------------- CAR ENGINE ---------------- 
             ImGui.Columns(2, "CarEngine", false)
-            Theme.PushStyleColor(ImGuiCol.Text,	Theme.CustomToggleOn)
-            ImGui.LabelText("##","ENGINE")
-            ImGui.PopStyleColor()
-            ImGui.Spacing()
+
+            Theme.DisplayLabel("Engine")
 
                 
             if ImGui.Button("Turn On", Style.buttonWidth, Style.buttonHeight) then
@@ -156,10 +147,7 @@ function VehicleUI.Create(CityHack, Style, Observer)
             ImGui.Spacing()
 
             ---------------- CAR MAYHEM ---------------- 
-            Theme.PushStyleColor(ImGuiCol.Text,	Theme.CustomToggleOn)
-            ImGui.LabelText("##","MAYHEM")
-            ImGui.PopStyleColor()
-            ImGui.Spacing()
+            Theme.DisplayLabel("Mayhem")
 
             if ImGui.Button("Detach All Parts", Style.buttonWidth, Style.buttonHeight) then
                 if CityHack.Vehicle.DetachAll() then
@@ -182,10 +170,8 @@ function VehicleUI.Create(CityHack, Style, Observer)
             end
 
             ImGui.NextColumn()
-            Theme.PushStyleColor(ImGuiCol.Text,	Theme.CustomToggleOn)
-            ImGui.LabelText("##","UTILITY")
-            ImGui.PopStyleColor()
-            ImGui.Spacing()
+
+            Theme.DisplayLabel("Utility")
             
 
             ---------------- CAR UTILITY ---------------- 
@@ -242,17 +228,18 @@ function VehicleUI.Create(CityHack, Style, Observer)
                 end
             end
 
-            if ImGui.Button("Despawn", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.Despawn() then
-                    CityHack.Util.Response("vehicle", "cycle appearance", true, false)
-                else
-                    CityHack.Util.Response("vehicle", "cycle appearance", false, false)
-                end
-            end
-
             if ImGui.IsItemHovered() then
                 ImGui.SetTooltip("! EXPERIMENTAL ! Cycle through vehicle appearances.")
             end
+
+            -- if ImGui.Button("Despawn", Style.buttonWidth, Style.buttonHeight) then
+            --     if CityHack.Vehicle.Despawn() then
+            --         CityHack.Util.Response("vehicle", "cycle appearance", true, false)
+            --     else
+            --         CityHack.Util.Response("vehicle", "cycle appearance", false, false)
+            --     end
+            -- end
+
 
             ImGui.Columns(1)
 

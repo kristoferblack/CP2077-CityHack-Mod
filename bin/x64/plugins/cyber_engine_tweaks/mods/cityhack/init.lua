@@ -47,6 +47,7 @@ function CityHack:new()
     CityHack.Device = require(CityHack.rootPath.."hacks.modules.device")
     CityHack.Vehicle = require(CityHack.rootPath.."hacks.modules.vehicle")
     CityHack.NPC = require(CityHack.rootPath.."hacks.modules.npc")
+    CityHack.Other = require(CityHack.rootPath.."hacks.modules.other")
     CityHack.Util = require(CityHack.rootPath.."hacks.modules.utility")
 
     CityHack.Observer = require(CityHack.rootPath.."observer")

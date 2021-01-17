@@ -1,7 +1,8 @@
 local OtherUI = {
     rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
     ValidTypes = {
-        "ElevatorFloorTerminal"
+        "ElevatorFloorTerminal",
+        "RoadBlock"
     }
 }
 
@@ -17,16 +18,29 @@ function OtherUI.Create(CityHack, Style, Observer)
         if ImGui.BeginTabItem("Other") then
             
             Theme.TabInner()
-            ImGui.SetWindowSize(280, 220)
 
-            Theme.DisplayLabel("Elevator Panel")
+            if Observer.IsA("ElevatorFloorTerminal") then
+                ImGui.SetWindowSize(280, 220)
 
-            if ImGui.Button("Restore Access", Style.buttonWidth, Style.buttonHeight) then
-                CityHack.Elevator.RestoreAccess()
+                Theme.DisplayLabel("Elevator Panel")
+
+                if ImGui.Button("Restore Access", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Elevator.RestoreAccess()
+                end
+
+                if ImGui.IsItemHovered() then
+                    ImGui.SetTooltip("Look at elevator call panel to use this. Will restore access to any\r\nelevator that shows OFF on the call panel.\r\nUseful for exploring mission areas after mission is over.")
+                end
             end
 
-            if ImGui.IsItemHovered() then
-                ImGui.SetTooltip("Look at elevator call panel to use this. Will restore access to any\r\nelevator that shows OFF on the call panel.\r\nUseful for exploring mission areas after mission is over.")
+            if Observer.IsA("RoadBlock") then
+                ImGui.SetWindowSize(280, 220)
+
+                Theme.DisplayLabel("Road Block")
+
+                if ImGui.Button("Toggle Open", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Other.RoadBlockToggle()
+                end
             end
             
         ImGui.EndTabItem()
