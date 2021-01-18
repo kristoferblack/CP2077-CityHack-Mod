@@ -11,18 +11,10 @@ local Util = require(Observer.rootPath.."hacks.modules.utility")
 function Observer.Tick(deltaTime)
     Observer.deltaTime = Observer.deltaTime + deltaTime
 
-    -- if Observer.loading then 
-    --     if Observer.deltaTime > 5 then
-    --         Observer.loading = false
-    --         Observer.deltaTime = 0
-    --     end
-
-    -- else
     if Observer.deltaTime > 1 then
         Observer.Update()
-        Observer.deltaTime = Observer.deltaTime - 2
+        Observer.deltaTime = Observer.deltaTime - 1
     end
-    -- end
 end
 
 function Observer.Update()

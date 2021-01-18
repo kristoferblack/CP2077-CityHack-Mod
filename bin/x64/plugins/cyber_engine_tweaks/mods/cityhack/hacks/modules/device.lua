@@ -43,6 +43,12 @@ function Device.State(state, param)
     elseif state == "StopGlitching" then
         target:StopGlitching()
 
+    elseif state == "StartBlinking" then
+        target:StartBlinking()
+
+    elseif state == "StopBlinking" then
+        target:StopBlinking()
+
     elseif state == "SetChannel" then
         target:SelectChannel(param)
 

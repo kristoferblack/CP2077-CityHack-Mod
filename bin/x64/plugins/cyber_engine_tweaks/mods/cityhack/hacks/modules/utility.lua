@@ -110,25 +110,49 @@ function Utility.PlayerVehicles()
     end
 end
 
+function Utility.DumpTweakDBID()
+    local player = Game.GetPlayer()
+    local target = Game.GetTargetingSystem():GetLookAtObject(player,false,false)
+
+    print( target:GetRecordID() )
+end
+
 function Utility.DumpVendorItems()
     local player = Game.GetPlayer()
     local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
-    local targetPS = target:GetDevicePS()
+    -- local targetPS = target:GetDevicePS()
     local scriptSystem =  Game.GetScriptableSystemsContainer()
     local marketSystem = scriptSystem:Get('MarketSystem')
-    local vendor = marketSystem:GetVendor(target)
+    local subCharSystem = scriptSystem:Get("SubCharacterSystem")
+    local cityLightSystem = scriptSystem:Get("CityLightSystem")
+
+    print( Dump(cityLightSystem, false) )
+    -- local vendor = marketSystem:GetVendor(target)
+
+    -- subCharSystem:AddFlathead()
+
+    -- print( Dump( subCharSystem,false ) )
+
+    -- print(target:GetRecordID())
+
+    -- print( GameDump( subCharSystem:GetAllSubCharacters() ) )
+
+    -- print( subCharSystem:GetFlathead():GetEntityID() )
+
+    -- print( subCharSystem:IsFlatheadFollowing() )
+
+    -- subCharSystem:AddFlathead()
+    -- subCharSystem:AddSubCharacter(target)
+    -- subCharSystem:ShowFlatheadUI(false)
+
 
     -- vendor:RegenerateStock()
 
-    for _, item in ipairs(vendor:GetStock()) do
-        local quantity = item.quantity
+    -- for _, item in ipairs(vendor:GetStock()) do
+    --     local quantity = item.quantity
 
-        print(item.itemID)
-        -- for i = 1, quantity do
-        --     local dispenseRequest = target:CreateDispenseRequest(false, items)
-        --     target:DispenseItems(dispenseRequest)
-        -- end
-    end
+    --     print(Dump(item,false))
+    -- end
 
     -- target:PlayItemFall()
 end

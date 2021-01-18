@@ -108,6 +108,22 @@ function Theme.DisplayLabel(text)
 	ImGui.Spacing()
 end
 
+function Theme.DisplayLabelState(text, state)
+	if not text then text = "Missing Text!" end
+	if not state then state = "" end
+
+	ImGui.Text(text .. state:upper())
+	ImGui.Spacing()
+end
+
+function Theme.Spacing(amount)
+	if not amount then amount = 1 end
+
+	for i = 1, amount do
+		ImGui.Spacing()
+	end
+end
+
 function Theme.TabStart()
 	Theme.PushStyleColor(ImGuiCol.Text,	Theme.TextWhite)
 end

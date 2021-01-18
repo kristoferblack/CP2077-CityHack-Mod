@@ -27,10 +27,23 @@ function Elevator.RestoreAccess()
         -- Show all floors
         for i = 0, #liftControllerPS:GetFloors() do
             local actionShowFloor = liftControllerPS:ActionQuestShowFloor()
+            local actionActiveFloor = liftControllerPS:ActionQuestSetFloorActive()
+
+            print( actionShowFloor:IsInactive() )
+
+            -- for _, props in ipairs(actionShowFloor:GetProperties()) do
+            -- print( GameDump(props) )
+            -- end
+
             actionShowFloor:SetProperties(i)
-            Game.GetPersistencySystem():QueuePSEvent(liftControllerPS:GetID(), liftControllerPS:GetClassName(), actionShowFloor)
+            actionActiveFloor:SetProperties(i)
+
+            Game.GetPersistencySystem():QueuePSDeviceEvent(actionShowFloor)
+            Game.GetPersistencySystem():QueuePSDeviceEvent(actionActiveFloor)
         end
  
+        liftControllerPS:ForceEnableDevice()
+        liftControllerPS:ForceDeviceON()
         liftControllerPS:WakeUpDevice()
     end
  

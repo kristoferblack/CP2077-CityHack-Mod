@@ -49,6 +49,10 @@ function UtilUI.Create(CityHack, style)
         if ImGui.Button("Dump Vendor Stock", style.buttonWidth, style.buttonHeight) then
             CityHack.Util.DumpVendorItems()
         end
+
+        if ImGui.Button("Dump TweakDBID", style.buttonWidth, style.buttonHeight) then
+            CityHack.Util.DumpTweakDBID()
+        end
     ImGui.EndTabItem()
     end
 

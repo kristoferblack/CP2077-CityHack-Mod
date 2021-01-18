@@ -20,7 +20,8 @@ local DeviceUI = {
         "DropPoint",
         "ConfessionBooth",
         "Computer",
-        "BillboardDevice"
+        "BillboardDevice",
+        "Reflector"
     },
     TVChannel = 0
 }
@@ -54,7 +55,7 @@ function DeviceUI.Create(CityHack, Style, Observer)
             end
 
 
-            if Util.IfArrayHasValue({"TV", "Computer", "VendingMachine", "BillboardDevice"}, Observer.LookedObject()) then
+            if Util.IfArrayHasValue({"TV", "Computer", "VendingMachine", "BillboardDevice", "DropPoint"}, Observer.LookedObject()) then
 
                 ImGui.NextColumn()
 
@@ -71,9 +72,7 @@ function DeviceUI.Create(CityHack, Style, Observer)
                 if Observer.IsA("TV") then
                     ImGui.SetWindowSize(280, 375)
 
-                    ImGui.Spacing()
-                    ImGui.Spacing()
-                    ImGui.Spacing()
+                    Theme.Spacing(3)
 
                     Theme.DisplayLabel("TV Channel")
 
@@ -88,6 +87,21 @@ function DeviceUI.Create(CityHack, Style, Observer)
                         CityHack.Device.State("SetChannel", DeviceUI.TVChannel)
                     end
                 end
+            end
+
+            if Observer.LookedObject() == "Reflector" then
+
+                ImGui.NextColumn()
+                Theme.DisplayLabel("Blinking")
+
+                if ImGui.Button("Start Blinking", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Device.State("StartBlinking")
+                end
+
+                if ImGui.Button("Stop Blinking", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Device.State("StopBlinking")
+                end
+
             end
 
             if Observer.LookedObject() == "VendingMachine" then
