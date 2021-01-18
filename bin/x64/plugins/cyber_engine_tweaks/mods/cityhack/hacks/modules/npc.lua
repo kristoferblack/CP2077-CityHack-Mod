@@ -4,6 +4,18 @@ local NPC = {
 }   
 local Util = require(NPC.rootPath.."hacks.modules.utility")
 
+function NPC.BerserkBuff()
+    Game.ApplyEffectOnNPC( "BaseStatusEffect.BerserkNPCBuff" )
+end
+
+function NPC.SandevistanBuff()
+    Game.ApplyEffectOnNPC( "BaseStatusEffect.SandevistanBuff" )
+end
+
+function NPC.Choke()
+    Game.ApplyEffectOnNPC( "BaseStatusEffect.OutOfOxygen" )
+end
+
 function NPC.Kill()
     Game.Kill()
 end

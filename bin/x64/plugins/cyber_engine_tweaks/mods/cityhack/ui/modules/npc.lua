@@ -18,6 +18,17 @@ function NpcUI.Create(CityHack, Style, Observer)
 
             Theme.TabInner()
             -- ImGui.SetWindowSize(280, 200)
+            if ImGui.Button("BerserkBuff", Style.buttonWidth, Style.buttonHeight) then
+                CityHack.NPC.BerserkBuff()
+            end
+
+            if ImGui.Button("SandevistanBuff", Style.buttonWidth, Style.buttonHeight) then
+                CityHack.NPC.SandevistanBuff()
+            end
+
+            if ImGui.Button("Choke", Style.buttonWidth, Style.buttonHeight) then
+                CityHack.NPC.Choke()
+            end
 
             if ImGui.Button("Kill", Style.buttonWidth, Style.buttonHeight) then
                 CityHack.NPC.Kill()
