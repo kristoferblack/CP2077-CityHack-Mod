@@ -1,6 +1,9 @@
 ## **What does this do?**
 It adds a menu to your game that allows you to control many aspects of things around Night City. HACK THE PLANET!  
-  
+
+
+## Disclaimer
+I am not responsible for any broken game states that result from using this mod. Always backup your saves when using mods!
   
 **Doors**  
 These are great to explore mission areas that have since been closed off or getting into places you really shouldn't be.  
@@ -40,7 +43,7 @@ Stage a photoshoot or cause mayhem using these tools.
 
 
 ## Requirements
-This mod requires at least version 1.8.3 of [Cyber Engine Tweaks mod](https://github.com/yamashi/CyberEngineTweaks/releases).  
+This mod requires at least version 1.9 (not yet released) of [Cyber Engine Tweaks mod](https://github.com/yamashi/CyberEngineTweaks/releases).  
   
   
 
