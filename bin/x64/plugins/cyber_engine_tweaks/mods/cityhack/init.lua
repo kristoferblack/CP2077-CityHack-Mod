@@ -83,8 +83,8 @@ function CityHack:new()
     end)
 
     registerForEvent("onDraw", function()
-        ImGui.SetNextWindowPos(500, 0, ImGuiCond.FirstUseEver)
-        ImGui.SetNextWindowSize(265, 250, ImGuiCond.Appearing)
+        ImGui.SetNextWindowPos(0, 500, ImGuiCond.FirstUseEver)
+        ImGui.SetNextWindowSize(265, 600, ImGuiCond.Appearing)
 
         if CityHack.drawWindow then
 

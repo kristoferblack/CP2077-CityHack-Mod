@@ -24,15 +24,17 @@ function Observer.Update()
         local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
 
         if target then
-            Observer.LookingAt = target:ToString()
-        else 
-            Observer.LookingAt = "Nothing"
+            Observer.LookingAt = target
         end
     end
 end
 
-function Observer.LookedObject()
-    return Observer.LookingAt
+function Observer.LookedObject(string)
+    if string and Observer.LookingAt ~= "Nothing" then
+        return Observer.LookingAt:ToString()
+    else
+        return Observer.LookingAt
+    end
 end
 
 function Observer.IsA(type)

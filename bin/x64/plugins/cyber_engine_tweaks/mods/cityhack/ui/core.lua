@@ -9,9 +9,9 @@ function UICore.Create(CityHack)
 
     UICore.DoorUI = require(UICore.rootPath.."ui.modules.door")
     UICore.DeviceUI = require(UICore.rootPath.."ui.modules.device")
-    UICore.VehicleUI = require(UICore.rootPath.."ui.modules.vehicle")
-    UICore.NpcUI = require(UICore.rootPath.."ui.modules.npc")
-    UICore.OtherUI = require(UICore.rootPath.."ui.modules.other")
+    -- UICore.VehicleUI = require(UICore.rootPath.."ui.modules.vehicle")
+    -- UICore.NpcUI = require(UICore.rootPath.."ui.modules.npc")
+    -- UICore.OtherUI = require(UICore.rootPath.."ui.modules.other")
     UICore.UtilUI = require(UICore.rootPath.."ui.modules.util")
     
 
@@ -29,7 +29,7 @@ function UICore.Create(CityHack)
 
         if ImGui.BeginChild("ObserverChild", -1, 70, true) then
             UICore.Theme.DisplayLabel("Looking At")
-            ImGui.Text(tostring(UICore.Observer.LookedObject()))
+            ImGui.Text(tostring(UICore.Observer.LookedObject(true)))
         end
         ImGui.EndChild()
 
@@ -38,27 +38,27 @@ function UICore.Create(CityHack)
         ImGui.Spacing()
 
 
-        if ImGui.BeginTabBar("CITYH4CKTABS", ImGuiTabBarFlags.AutoSelectNewTabs) then
+        -- if ImGui.BeginTabBar("CITYH4CKTABS", ImGuiTabBarFlags.AutoSelectNewTabs) then
             ---------------- DOORS TAB ---------------- 
             UICore.DoorUI.Create(CityHack, Style, UICore.Observer)
             
-            ---------------- DEVICES TAB ---------------- 
+            -- ---------------- DEVICES TAB ---------------- 
             UICore.DeviceUI.Create(CityHack, Style, UICore.Observer)
 
-            ---------------- CARS TAB ---------------- 
-            UICore.VehicleUI.Create(CityHack, Style, UICore.Observer)
+            -- ---------------- CARS TAB ---------------- 
+            -- UICore.VehicleUI.Create(CityHack, Style, UICore.Observer)
 
-            ---------------- NPC TAB ---------------- 
-            UICore.NpcUI.Create(CityHack, Style, UICore.Observer)
+            -- ---------------- NPC TAB ---------------- 
+            -- UICore.NpcUI.Create(CityHack, Style, UICore.Observer)
 
-            ---------------- OTHER TAB ---------------- 
-            UICore.OtherUI.Create(CityHack, Style, UICore.Observer)
+            -- ---------------- OTHER TAB ---------------- 
+            -- UICore.OtherUI.Create(CityHack, Style, UICore.Observer)
 
             ---------------- UTIL TAB ---------------- 
             UICore.UtilUI.Create(CityHack, Style)
 
-        end
-        ImGui.EndTabBar()
+        -- end
+        -- ImGui.EndTabBar()
         
     end
     UICore.Theme.End()

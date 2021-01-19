@@ -13,6 +13,9 @@ local Theme = {
 	FrameBgDisabled                     =           { 0.48, 0.39, 0.40, 1    },
 	FrameBgHoveredDisabled              =           { 0.48, 0.39, 0.40, 1    },
 	FrameBgActiveDisabled               =           { 0.48, 0.39, 0.40, 1    },
+	Header								=			{ 0.57, 0.17, 0.16, 0.2  },
+	HeaderHovered						=			{ 0.32, 0.09, 0.11, 0.75 },
+	HeaderActive						=			{ 0.32, 0.09, 0.11, 1    },
 	TitleBg                             =           { 0.06, 0.04, 0.06, 0.8  },
 	TitleBgActive                       =           { 0.06, 0.04, 0.06, 0.8  },
 	TitleBgCollapsed                    =           { 0.06, 0.04, 0.06, 0.3  },
@@ -82,6 +85,9 @@ function Theme.Start()
 	Theme.PushStyleColor(ImGuiCol.ResizeGrip, 			    Theme.ResizeGrip)
 	Theme.PushStyleColor(ImGuiCol.ResizeGripHovered, 	    Theme.ResizeGripHovered)
 	Theme.PushStyleColor(ImGuiCol.ResizeGripActive,		    Theme.ResizeGripActive)
+	Theme.PushStyleColor(ImGuiCol.Header,		    		Theme.Header)
+	Theme.PushStyleColor(ImGuiCol.HeaderHovered,		    Theme.HeaderHovered)
+	Theme.PushStyleColor(ImGuiCol.HeaderActive,		    	Theme.HeaderActive)
 	Theme.PushStyleColor(ImGuiCol.Text,					    Theme.Text)
 	Theme.PushStyleColor(ImGuiCol.Tab,					    Theme.Tab)
 	Theme.PushStyleColor(ImGuiCol.TabHovered,			    Theme.TabHovered)
@@ -96,7 +102,7 @@ function Theme.Start()
 end
 
 function Theme.End()
-	ImGui.PopStyleColor(20)
+	ImGui.PopStyleColor(23)
 end
 
 function Theme.DisplayLabel(text)
@@ -124,6 +130,12 @@ function Theme.Spacing(amount)
 	end
 end
 
+function Theme.InsertSeparator()
+	Theme.Spacing(2)
+	ImGui.Separator()
+	Theme.Spacing(1)
+end
+
 function Theme.TabStart()
 	Theme.PushStyleColor(ImGuiCol.Text,	Theme.TextWhite)
 end
@@ -136,6 +148,14 @@ end
 
 function Theme.TabEnd()
 	ImGui.EndTabItem()
+end
+
+function Theme.HeaderStart()
+	Theme.PushStyleColor(ImGuiCol.Text, Theme.CustomToggleOn)
+end
+
+function Theme.HeaderEnd()
+	ImGui.PopStyleColor()
 end
 
 return Theme

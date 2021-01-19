@@ -23,7 +23,9 @@ local DeviceUI = {
         "BillboardDevice",
         "Reflector"
     },
-    TVChannel = 0
+    TVChannel = 0,
+
+    DeviceHeaderLabel = "DEVICES",
 }
 
 local Theme = require(DeviceUI.rootPath.."ui.theme")
@@ -32,45 +34,52 @@ local Util = require(DeviceUI.rootPath.."hacks.modules.utility")
 
 function DeviceUI.Create(CityHack, Style, Observer)
 
-    Theme.PushStyleColor(ImGuiCol.Text,	Theme.TextWhite)
+    local LookedObject = Observer.LookedObject()
 
-    if Util.IfArrayHasValue(DeviceUI.ValidDeviceTypes, Observer.LookedObject()) then
+    if Util.IfArrayHasValue(DeviceUI.ValidDeviceTypes, LookedObject) then
+        
+        ImGui.SetNextItemOpen(true)
 
-        if ImGui.BeginTabItem("Devices") then
-            ImGui.PopStyleColor()
-            Theme.PushStyleColor(ImGuiCol.Text,	Theme.Text)
-            ImGui.SetWindowSize(280, 325)
+        if ImGui.CollapsingHeader(DeviceUI.DeviceHeaderLabel) then
             ImGui.Spacing()
 
             ImGui.Columns(2, "DeviceState", false)
 
             Theme.DisplayLabel("Power")
 
-            if ImGui.Button("Turn On", Style.buttonWidth, Style.buttonHeight) then
-                CityHack.Device.State("PowerOn")
+            if not CityHack.Device.Is("On", LookedObject) then
+                if ImGui.Button("Turn On", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Device.State("PowerOn")
+                end
             end
 
-            if ImGui.Button("Turn Off", Style.buttonWidth, Style.buttonHeight) then
-                CityHack.Device.State("PowerOff")
+            if CityHack.Device.Is("On", LookedObject) then
+                if ImGui.Button("Turn Off", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Device.State("PowerOff")
+                end
             end
 
 
-            if Util.IfArrayHasValue({"TV", "Computer", "VendingMachine", "BillboardDevice", "DropPoint"}, Observer.LookedObject()) then
+            if Util.IfArrayHasValue({"TV", "Computer", "VendingMachine", "BillboardDevice", "DropPoint"}, LookedObject) then
 
                 ImGui.NextColumn()
 
                 Theme.DisplayLabel("Controls")
 
-                if ImGui.Button("Start Glitching", Style.buttonWidth, Style.buttonHeight) then
-                    CityHack.Device.State("StartGlitching")
-                end
+                print( LookedObject:GetDevicePS():IsGlitching() )
 
-                if ImGui.Button("Stop Glitching", Style.buttonWidth, Style.buttonHeight) then
-                    CityHack.Device.State("StopGlitching")
-                end
 
-                if Observer.IsA("TV") then
-                    ImGui.SetWindowSize(280, 375)
+                    if ImGui.Button("Start", Style.halfButtonWidth / 2, Style.buttonHeight) then
+                        CityHack.Device.State("StartGlitching")
+                    end
+
+                    ImGui.SameLine()
+                    if ImGui.Button("Stop", Style.halfButtonWidth / 2, Style.buttonHeight) then
+                        CityHack.Device.State("StopGlitching")
+                    end
+
+
+                if Util.IsA("TV", LookedObject) then
 
                     Theme.Spacing(3)
 
@@ -89,7 +98,7 @@ function DeviceUI.Create(CityHack, Style, Observer)
                 end
             end
 
-            if Observer.LookedObject() == "Reflector" then
+            if Util.IsA("Reflector", LookedObject) then
 
                 ImGui.NextColumn()
                 Theme.DisplayLabel("Blinking")
@@ -104,15 +113,16 @@ function DeviceUI.Create(CityHack, Style, Observer)
 
             end
 
-            if Observer.LookedObject() == "VendingMachine" then
+            if Util.IsA("VendingMachine", LookedObject) then
 
                 if ImGui.Button("Dispense All", Style.buttonWidth, Style.buttonHeight) then
                     CityHack.Device.VendingMachine("DispenseAll")
                 end
+
             end
 
 
-            if Util.IfArrayHasValue({"CrossingLight", "TrafficLight"}, Observer.LookedObject()) then
+            if Util.IfArrayHasValue({"CrossingLight", "TrafficLight"}, LookedObject) then
 
                 ImGui.NextColumn()
                 
@@ -128,7 +138,6 @@ function DeviceUI.Create(CityHack, Style, Observer)
             end
 
             ImGui.Columns(1)
-            ImGui.EndTabItem()
         end
     end
 

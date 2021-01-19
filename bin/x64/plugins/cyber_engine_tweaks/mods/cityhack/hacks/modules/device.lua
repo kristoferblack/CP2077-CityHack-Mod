@@ -82,4 +82,19 @@ function Device.VendingMachine(action)
     end
 end
 
+function Device.Is(state, target)
+
+    if not target then return end
+
+    local devicePS = target:GetDevicePS()
+
+    if state == "On" then
+        return devicePS:IsON()
+
+    elseif state == "Glitching" then
+        -- print( devicePS:GetDeviceStatus() )
+        return devicePS.isGlitching
+    end
+end
+
 return Device

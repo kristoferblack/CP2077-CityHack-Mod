@@ -7,8 +7,12 @@ function Utility.Log(input)
 end
 
 function Utility.IfArrayHasValue(items, val)
+    local innerVal = val
+
+    if type(val) ~= "string" then innerVal = val:ToString() end
+
     for index, value in ipairs(items) do
-        if value == val then
+        if value == innerVal then
             return true
         end
     end

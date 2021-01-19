@@ -4,13 +4,9 @@ UtilUI = {
 
 local Theme = require(UtilUI.rootPath.."ui.theme")
 
-function UtilUI.Create(CityHack, style) 
+function UtilUI.Create(CityHack, Style) 
 
-    Theme.TabStart()
-
-    if ImGui.BeginTabItem("Util") then
-        Theme.TabInner()
-        ImGui.SetWindowSize(280, 460)
+    if ImGui.CollapsingHeader("UTILITY") then
 
         ImGui.PushTextWrapPos()
         Theme.PushStyleColor(ImGuiCol.Text,	Theme.CustomToggleOn)
@@ -22,38 +18,38 @@ function UtilUI.Create(CityHack, style)
         ImGui.Spacing()
         ImGui.Spacing()
 
-        if ImGui.Button("Dump", style.buttonWidth, style.buttonHeight) then
+        if ImGui.Button("Dump", Style.buttonWidth, Style.buttonHeight) then
             CityHack.Util.Dump()
         end
 
-        if ImGui.Button("Dump Controller", style.buttonWidth, style.buttonHeight) then
+        if ImGui.Button("Dump Controller", Style.buttonWidth, Style.buttonHeight) then
             CityHack.Util.DumpController()
         end
 
-        if ImGui.Button("Dump Device PS", style.buttonWidth, style.buttonHeight) then
+        if ImGui.Button("Dump Device PS", Style.buttonWidth, Style.buttonHeight) then
             CityHack.Util.DumpPS()
         end
 
-        if ImGui.Button("Dump Device Parents", style.buttonWidth, style.buttonHeight) then
+        if ImGui.Button("Dump Device Parents", Style.buttonWidth, Style.buttonHeight) then
             CityHack.Util.DumpParents()
         end
 
-        if ImGui.Button("Dump Vehicle PS", style.buttonWidth, style.buttonHeight) then
-            CityHack.Car.DumpPS()
+        if ImGui.Button("Dump Vehicle PS", Style.buttonWidth, Style.buttonHeight) then
+            CityHack.Vehicle.DumpPS()
         end
 
-        if ImGui.Button("Dump Player Vehicles", style.buttonWidth, style.buttonHeight) then
+        if ImGui.Button("Dump Player Vehicles", Style.buttonWidth, Style.buttonHeight) then
             CityHack.Util.PlayerVehicles()
         end
 
-        if ImGui.Button("Dump Vendor Stock", style.buttonWidth, style.buttonHeight) then
+        if ImGui.Button("Dump Vendor Stock", Style.buttonWidth, Style.buttonHeight) then
             CityHack.Util.DumpVendorItems()
         end
 
-        if ImGui.Button("Dump TweakDBID", style.buttonWidth, style.buttonHeight) then
+        if ImGui.Button("Dump TweakDBID", Style.buttonWidth, Style.buttonHeight) then
             CityHack.Util.DumpTweakDBID()
         end
-    ImGui.EndTabItem()
+
     end
 
 end

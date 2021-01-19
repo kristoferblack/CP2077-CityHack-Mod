@@ -3,123 +3,130 @@ local DoorUI = {
     ValidDoorTypes = {
         "Door",
         "FakeDoor"
-    }
+    },
+
+    DoorHeaderLabel = "DOORS",
+    ButtonLockedLabel = nil,
+    ButtonSealedLabel = nil,
+    ButtonAutoLabel = "Set Auto",
+    ButtonManualLabel = "Set Manual",
+    ButtonResetLabel = "Reset"
 }
 
 local Theme = require(DoorUI.rootPath.."ui.theme")
 local Util = require(DoorUI.rootPath.."hacks.modules.utility")
 
 function DoorUI.Create(CityHack, Style, Observer)
-    
-    if Util.IfArrayHasValue(DoorUI.ValidDoorTypes, Observer.LookedObject()) then
-        
-        Theme.PushStyleColor(ImGuiCol.Text,	Theme.TextWhite)
 
-        if ImGui.BeginTabItem("Doors") then
+    local LookedObject = Observer.LookedObject()
 
-            ImGui.PopStyleColor()
-            Theme.PushStyleColor(ImGuiCol.Text,	Theme.Text)
-            ImGui.SetWindowSize(280, 440)
+    if Util.IfArrayHasValue(DoorUI.ValidDoorTypes, LookedObject) then
 
-            if Observer.LookedObject() == "Door" then
-                
-                ---------------- BASIC ---------------- 
-                ImGui.Columns(2, "DoorsBasic", false)
+        if Util.IsA("Door", LookedObject) then
 
-                Theme.DisplayLabel("Basic")
+            if CityHack.Door.Is("Locked", LookedObject) then
+                DoorUI.ButtonLockedLabel = "Unlock"
+            else
+                DoorUI.ButtonLockedLabel = "Lock"
+            end
 
-                if ImGui.Button("Open", Style.buttonWidth, Style.buttonHeight) then
-                    if CityHack.Door.Toggle("open") then
-                        CityHack.Util.Response("door", "open", true, false)
-                    else
-                        CityHack.Util.Response("door", "open", false, false)
+            if CityHack.Door.Is("Sealed", LookedObject) then
+                DoorUI.ButtonSealedLabel = "Unseal"
+            else
+                DoorUI.ButtonSealedLabel = "Seal"
+            end
+
+            ImGui.SetNextItemOpen(true)
+        else
+            ImGui.SetNextItemOpen(false)
+        end
+
+
+        if ImGui.CollapsingHeader(DoorUI.DoorHeaderLabel) then
+            
+            ---------------- BASIC ---------------- 
+            Theme.DisplayLabel("Basic") 
+
+            if Util.IsA("Door", LookedObject) then
+                if not CityHack.Door.Is("Open", LookedObject) then
+                    if ImGui.Button("Open", Style.buttonWidth, Style.buttonHeight) then
+                        CityHack.Door.Toggle("open", LookedObject)
+                    end
+
+                    if ImGui.IsItemHovered() then
+                        ImGui.SetTooltip("This will automatically unseal and unlock any door and make it open.")
                     end
                 end
-                
+
+                if CityHack.Door.Is("Open", LookedObject) then
+                    if ImGui.Button("Close", Style.buttonWidth, Style.buttonHeight) then
+                        CityHack.Door.Toggle("close", LookedObject)
+                    end
+                end
+            end
+
+            if Util.IsA("FakeDoor", LookedObject) then
+                if ImGui.Button("Delete Fake Door", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Door.Dispose(LookedObject)
+                end
+
                 if ImGui.IsItemHovered() then
-                    ImGui.SetTooltip("This will automatically unseal and unlock any door and make it open.\r\nFor fake doors, it will delete them but be warned you'll probably fall through the map.")
+                    ImGui.SetTooltip("WARNING! This will PERMANENTLY delete this fake door. You'll have to reload a\r\nprevious save to get it back.")
                 end
+            end
 
-                if ImGui.Button("Close", Style.buttonWidth, Style.buttonHeight) then
-                    if CityHack.Door.Toggle("close") then
-                        CityHack.Util.Response("door", "close", true, false)
-                    else
-                        CityHack.Util.Response("door", "close", false, false)
-                    end
-                end
+            Theme.InsertSeparator()
 
-                if ImGui.Button("Reset", Style.buttonWidth, Style.buttonHeight) then
-                    if not CityHack.Door.Reset() then
-                        CityHack.Util.Response("door", "reset", false, false)
-                    end
-                end
+            Theme.DisplayLabel("Toggles")
 
-                ImGui.Spacing()
-                ImGui.NextColumn()
+            if ImGui.Button(DoorUI.ButtonLockedLabel, Style.halfButtonWidth, Style.buttonHeight) then
+                CityHack.Door.ToggleLock(LookedObject)
+            end
 
-                Theme.DisplayLabel("Toggles")
+            ImGui.SameLine()
 
-                if ImGui.Button("Toggle Lock", Style.buttonWidth, Style.buttonHeight) then
-                    if CityHack.Door.ToggleLock() then
-                        CityHack.Util.Response("door", "toggle lock", true, false)
-                    else
-                        CityHack.Util.Response("door", "toggle lock", false, false)
-                    end
-                end
+            if ImGui.Button(DoorUI.ButtonSealedLabel, Style.halfButtonWidth, Style.buttonHeight) then
+                CityHack.Door.ToggleSeal(LookedObject)
+            end
 
-                if ImGui.Button("Toggle Seal", Style.buttonWidth, Style.buttonHeight) then
-                    if CityHack.Door.ToggleSeal() then
-                        CityHack.Util.Response("door", "toggle seal", true, false)
-                    else
-                        CityHack.Util.Response("door", "toggle seal", false, false)
-                    end
-                end
+            Theme.InsertSeparator()
 
-                ImGui.Columns(1)
+            ---------------- OTHER BUTTONS ---------------- 
+            Theme.DisplayLabel("Other")
 
-                ImGui.Columns(2, "ElevatorOther", false)
-
-                ---------------- OTHER BUTTONS ---------------- 
-                Theme.DisplayLabel("Others")
-
-                if ImGui.Button("Set Auto", Style.buttonWidth, Style.buttonHeight) then
-                    if CityHack.Door.SetType(2) then
-                        CityHack.Util.Response("door", "auto", true, false)
-                    else
-                        CityHack.Util.Response("door", "auto", false, false)
-                    end
+            if CityHack.Door.Is("Type", LookedObject) == 1 then
+                if ImGui.Button(DoorUI.ButtonAutoLabel, Style.halfButtonWidth, Style.buttonHeight) then
+                    CityHack.Door.SetType(2, LookedObject)
                 end
 
                 if ImGui.IsItemHovered() then
                     ImGui.SetTooltip("Set a door to auto, meaning it will automatically open when you approach.")
                 end
 
-                if ImGui.Button("Set Manual", Style.buttonWidth, Style.buttonHeight) then
-                    if CityHack.Door.SetType(1) then
-                        CityHack.Util.Response("door", "manual", true, false)
-                    else
-                        CityHack.Util.Response("door", "manual", false, false)
-                    end
+            elseif CityHack.Door.Is("Type", LookedObject) == 2 then
+                if ImGui.Button(DoorUI.ButtonManualLabel, Style.halfButtonWidth, Style.buttonHeight) then
+                    CityHack.Door.SetType(1, LookedObject)
                 end
 
                 if ImGui.IsItemHovered() then
                     ImGui.SetTooltip("Sets door back to manual so interaction is required to open door.")
                 end
-
-                ImGui.Columns(1)
-
-            elseif Observer.LookedObject() == "FakeDoor" then
-                ImGui.Spacing()
-                if ImGui.Button("Delete Fake Door", Style.buttonWidth, Style.buttonHeight) then
-                    if CityHack.Door.Dispose() then
-                        CityHack.Util.Response("fake door", "dispose", true, true)
-                    else
-                        CityHack.Util.Response("fake door", "dispose", false, false)
-                    end
-                end
             end
 
-        ImGui.EndTabItem()
+            ImGui.SameLine()
+
+            if ImGui.Button(DoorUI.ButtonResetLabel, Style.halfButtonWidth, Style.buttonHeight) then
+                CityHack.Door.Reset(LookedObject)
+            end
+
+            if ImGui.IsItemHovered() then
+                ImGui.SetTooltip("Reset the door to it's default game state.")
+            end
+
+
+
+            Theme.Spacing(3)
+
         end
     end
 end
