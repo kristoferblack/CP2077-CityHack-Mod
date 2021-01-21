@@ -8,11 +8,11 @@ function Other.RoadBlockToggle()
     target:ToggleBlockade()
 end
 
-function Other.CityWideLight(state)
+function Other.SetCityWideLight(state)
     local scriptSystem =  Game.GetScriptableSystemsContainer()
     local cityLightSystem = scriptSystem:Get('CityLightSystem')
 
-    cityLightSystem:AddForcedStateRequest("ECLSForcedState.ForcedON", "EPriority.Absolute", false)
+    -- cityLightSystem:AddForcedStateRequest("ForcedON", "DEBUG", "Absolute", false)
 
     -- STATES: 0 = default, 1 = forced on, 2 = forced off
 
@@ -28,6 +28,13 @@ function Other.CityWideLight(state)
     end
 
     cityLightSystem:UpdateCLSForcedState()
+end
+
+function Other.GetCityWideLightState()
+    local scriptSystem =  Game.GetScriptableSystemsContainer()
+    local cityLightSystem = scriptSystem:Get('CityLightSystem')
+
+    return cityLightSystem:GetState().value
 end
 
 function Other.PoliceToggle(state) 

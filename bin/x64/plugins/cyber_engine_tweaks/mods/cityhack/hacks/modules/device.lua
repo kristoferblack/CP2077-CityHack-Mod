@@ -3,9 +3,7 @@ local Device = {
 }
 local Util = require(Device.rootPath.."hacks.modules.utility")
 
-function Device.State(state, param)
-    local player = Game.GetPlayer()
-    local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
+function Device.State(state, param, target)
     local targetPS = target:GetDevicePS()
 
     if state == "PowerOn" then

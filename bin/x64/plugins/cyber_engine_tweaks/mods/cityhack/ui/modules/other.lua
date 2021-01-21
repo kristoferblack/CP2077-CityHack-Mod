@@ -7,7 +7,10 @@ local OtherUI = {
     States = {
         CityLights = "Default",
         Police = "Default"
-    }
+    },
+
+    HeaderLabel = "OTHER",
+    HeaderCitywideLabel = "CITY WIDE"
 }
 
 local Theme = require(OtherUI.rootPath.."ui.theme")
@@ -15,30 +18,30 @@ local Util = require(OtherUI.rootPath.."hacks.modules.utility")
 
 function OtherUI.Create(CityHack, Style, Observer)
 
-    Theme.TabStart()
+    local LookedObject = Observer.LookedObject()
 
-    if ImGui.BeginTabItem("Other") then
+    
+    if Util.IfArrayHasValue(OtherUI.ValidTypes, LookedObject) then
+        ImGui.SetNextItemOpen(true)
 
-        Theme.TabInner()
-        
-        if Util.IfArrayHasValue(OtherUI.ValidTypes, Observer.LookedObject()) then
+        if ImGui.CollapsingHeader(OtherUI.HeaderLabel) then
             
             if Observer.IsA("ElevatorFloorTerminal") then
                 
-                if ImGui.CollapsingHeader("ELEVATOR", ImGuiTreeNodeFlags.Selected) then
-                
-                    if ImGui.Button("Restore Access", Style.buttonWidth, Style.buttonHeight) then
-                        CityHack.Elevator.RestoreAccess()
-                    end
-                    
-                    if ImGui.IsItemHovered() then
-                        ImGui.SetTooltip("Look at elevator call panel to use this. Will restore access to any\r\nelevator that shows OFF on the call panel.\r\nUseful for exploring mission areas after mission is over.")
-                    end
+                Theme.DisplayLabel("Elevator")
+            
+                if ImGui.Button("Restore Access", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Elevator.RestoreAccess()
                 end
+                
+                if ImGui.IsItemHovered() then
+                    ImGui.SetTooltip("Look at elevator call panel to use this. Will restore access to any\r\nelevator that shows OFF on the call panel.\r\nUseful for exploring mission areas after mission is over.")
+                end
+
+                Theme.Spacing(1)
             end
             
             if Observer.IsA("RoadBlock") then
-                ImGui.SetWindowSize(280, 220)
                 
                 Theme.DisplayLabel("Road Block")
                 
@@ -48,43 +51,50 @@ function OtherUI.Create(CityHack, Style, Observer)
             end
             
         end
+    end
+
+    if ImGui.CollapsingHeader(OtherUI.HeaderCitywideLabel) then
         
-        if ImGui.CollapsingHeader("CITY LIGHTS") then
-            Theme.DisplayLabel("City Lights: "..OtherUI.States.CityLights)
+        local cityLightState = CityHack.Other.GetCityWideLightState()
 
-            if ImGui.Button("Turn On All Lights", Style.buttonWidth, Style.buttonHeight) then
-                CityHack.Other.CityWideLight("AllOn")
-                OtherUI.States.CityLights = "All On"
-            end
+        Theme.DisplayLabel("City Lights: "..cityLightState)
 
-            if ImGui.Button("Turn Off All Lights", Style.buttonWidth, Style.buttonHeight) then
-                CityHack.Other.CityWideLight("AllOff")
-                OtherUI.States.CityLights = "All Off"
-            end
-
-            if ImGui.Button("Reset All Lights", Style.buttonWidth, Style.buttonHeight) then
-                CityHack.Other.CityWideLight("Reset")
-                OtherUI.States.CityLights = "Default"
-            end
-
+        if ImGui.Button("Turn On All", Style.halfButtonWidth, Style.buttonHeight) then
+            CityHack.Other.SetCityWideLight("AllOn")
+            OtherUI.States.CityLights = "All On"
         end
 
-        
-        if ImGui.CollapsingHeader("POLICE") then
-            Theme.DisplayLabel("Police")
+        ImGui.SameLine()
 
-            if ImGui.Button("Turn On Police", Style.buttonWidth, Style.buttonHeight) then
-                CityHack.Other.PoliceToggle("On")
-            end
-
-            if ImGui.Button("Turn Off Police", Style.buttonWidth, Style.buttonHeight) then
-                CityHack.Other.PoliceToggle("Off")
-            end
-
+        if ImGui.Button("Turn Off All", Style.halfButtonWidth, Style.buttonHeight) then
+            CityHack.Other.SetCityWideLight("AllOff")
+            OtherUI.States.CityLights = "All Off"
         end
-        ImGui.TreePop()
 
-    ImGui.EndTabItem()
+        Theme.Spacing(1)
+
+        if ImGui.Button("Reset All Lights", Style.buttonWidth, Style.buttonHeight) then
+            CityHack.Other.SetCityWideLight("Reset")
+            OtherUI.States.CityLights = "Default"
+        end
+
+        Theme.InsertSeparator()
+
+
+        Theme.DisplayLabel("Police")
+
+        if ImGui.Button("Enable", Style.halfButtonWidth, Style.buttonHeight) then
+            CityHack.Other.PoliceToggle("On")
+        end
+
+        ImGui.SameLine()
+
+        if ImGui.Button("Disable", Style.halfButtonWidth, Style.buttonHeight) then
+            CityHack.Other.PoliceToggle("Off")
+        end
+
+        Theme.Spacing(1)
+
     end
 end
 

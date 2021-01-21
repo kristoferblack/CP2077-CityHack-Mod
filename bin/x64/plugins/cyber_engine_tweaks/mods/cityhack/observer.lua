@@ -39,11 +39,12 @@ end
 
 function Observer.IsA(type)
 
-    if type == Observer.LookingAt then 
+    if type == Observer.LookedObject(true) then 
         return true
     else 
         return false 
     end
+
 
 end
 

@@ -20,6 +20,13 @@ function Utility.IfArrayHasValue(items, val)
     return false
 end
 
+-- Lua doesnt have regex, ree?
+-- function Utility.FormatText(text)
+--     if not text then return end
+    
+--     return Regex.Replace(tostring(text), "([a-z?])[_ ]?([A-Z])", "$1 $2")
+-- end
+
 function Utility.Response(system, action, result, context)
 
     separator = " - "
@@ -79,6 +86,7 @@ end
 function Utility.DumpPS()
     local player = Game.GetPlayer()
     print(Dump(Game.GetTargetingSystem():GetLookAtObject(player,false,false):GetDevicePS(), false))
+    -- print(Dump(Game.GetTargetingSystem():GetLookAtObject(player,false,false):GetDevicePS():GetSecuritySystem(), false))
 end
 
 -- Bump device persistent state

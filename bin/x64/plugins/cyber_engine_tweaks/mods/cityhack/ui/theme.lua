@@ -99,6 +99,12 @@ function Theme.Start()
 	Theme.PushStyleColor(ImGuiCol.ButtonHovered,		    Theme.ButtonHovered)
 	Theme.PushStyleColor(ImGuiCol.ButtonActive,			    Theme.ButtonActive)
 	Theme.PushStyleColor(ImGuiCol.Separator,			    Theme.Separator)
+
+	ImGui.SetWindowFontScale(1)
+    ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 15, 15)
+    ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0)
+    ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 5)
+    ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 2)
 end
 
 function Theme.End()
@@ -156,6 +162,12 @@ end
 
 function Theme.HeaderEnd()
 	ImGui.PopStyleColor()
+end
+
+function Theme.Tooltip(text)
+	if ImGui.IsItemHovered() then
+		ImGui.SetTooltip(text)
+	end
 end
 
 return Theme

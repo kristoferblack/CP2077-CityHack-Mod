@@ -23,9 +23,11 @@ local DeviceUI = {
         "BillboardDevice",
         "Reflector"
     },
-    TVChannel = 0,
 
+    TVChannel = 0,
     DeviceHeaderLabel = "DEVICES",
+    TVChannels = {"1", "2", "3", "4", "5"},
+    TVChannelsCurrent = "1"
 }
 
 local Theme = require(DeviceUI.rootPath.."ui.theme")
@@ -40,7 +42,7 @@ function DeviceUI.Create(CityHack, Style, Observer)
         
         ImGui.SetNextItemOpen(true)
 
-        if ImGui.CollapsingHeader(DeviceUI.DeviceHeaderLabel) then
+        if ImGui.CollapsingHeader(LookedObject:ToString()) then
             ImGui.Spacing()
 
             ImGui.Columns(2, "DeviceState", false)
@@ -49,35 +51,35 @@ function DeviceUI.Create(CityHack, Style, Observer)
 
             if not CityHack.Device.Is("On", LookedObject) then
                 if ImGui.Button("Turn On", Style.buttonWidth, Style.buttonHeight) then
-                    CityHack.Device.State("PowerOn")
+                    CityHack.Device.State("PowerOn", false, LookedObject)
                 end
             end
 
             if CityHack.Device.Is("On", LookedObject) then
                 if ImGui.Button("Turn Off", Style.buttonWidth, Style.buttonHeight) then
-                    CityHack.Device.State("PowerOff")
+                    CityHack.Device.State("PowerOff", false, LookedObject)
                 end
             end
 
+            Theme.Spacing()
 
             if Util.IfArrayHasValue({"TV", "Computer", "VendingMachine", "BillboardDevice", "DropPoint"}, LookedObject) then
 
                 ImGui.NextColumn()
 
-                Theme.DisplayLabel("Controls")
-
-                print( LookedObject:GetDevicePS():IsGlitching() )
+                Theme.DisplayLabel("Glitching")
 
 
-                    if ImGui.Button("Start", Style.halfButtonWidth / 2, Style.buttonHeight) then
-                        CityHack.Device.State("StartGlitching")
-                    end
+                if ImGui.Button("Start", Style.halfButtonWidth, Style.buttonHeight) then
+                    CityHack.Device.State("StartGlitching")
+                end
 
-                    ImGui.SameLine()
-                    if ImGui.Button("Stop", Style.halfButtonWidth / 2, Style.buttonHeight) then
-                        CityHack.Device.State("StopGlitching")
-                    end
+                if ImGui.Button("Stop", Style.halfButtonWidth, Style.buttonHeight) then
+                    CityHack.Device.State("StopGlitching")
+                end
 
+                ImGui.Columns(1)
+                ImGui.Columns(2, "DeviceTVChannels", false)
 
                 if Util.IsA("TV", LookedObject) then
 
@@ -85,16 +87,30 @@ function DeviceUI.Create(CityHack, Style, Observer)
 
                     Theme.DisplayLabel("TV Channel")
 
-                    local TVChannels = {"1", "2", "3", "4", "5\0"}
-                    local ChannelTable = table.concat(TVChannels, "\0")
+                    -- local TVChannels = {"1", "2", "3", "4", "5\0"}
+                    -- local ChannelTable = table.concat(TVChannels, "\0")
 
-                    ImGui.PushItemWidth(Style.buttonWidth)
-                    DeviceUI.TVChannel = ImGui.Combo("##Channel", DeviceUI.TVChannel, ChannelTable)
-                    ImGui.PopItemWidth()
+                    if ImGui.BeginCombo("##TVChannels", DeviceUI.TVChannelsCurrent) then
+
+                        for i, channel in ipairs(TVChannels) do
+                            if ImGui.Selectable(channel, (channel == DeviceUI.TVChannelsCurrent)) then
+                                DeviceUI.TVChannelsCurrent = channel
+                                ImGui.SetItemDefaultFocus();
+                            end
+                        end
+            
+                    ImGui.EndCombo()
+                    end
+
+                    -- ImGui.PushItemWidth(Style.buttonWidth)
+                    -- DeviceUI.TVChannel = ImGui.Combo("##Channel", DeviceUI.TVChannel, ChannelTable)
+                    -- ImGui.PopItemWidth()
                     
                     if ImGui.Button("Set Channel", Style.buttonWidth, Style.buttonHeight) then
-                        CityHack.Device.State("SetChannel", DeviceUI.TVChannel)
+                        CityHack.Device.State("SetChannel", DeviceUI.TVChannel, LookedObject)
                     end
+
+                    Theme.Spacing(3)
                 end
             end
 
@@ -113,11 +129,17 @@ function DeviceUI.Create(CityHack, Style, Observer)
 
             end
 
+            ImGui.Columns(1)
+
+            
             if Util.IsA("VendingMachine", LookedObject) then
+                Theme.DisplayLabel("Mayhem")
 
                 if ImGui.Button("Dispense All", Style.buttonWidth, Style.buttonHeight) then
                     CityHack.Device.VendingMachine("DispenseAll")
                 end
+
+                Theme.Tooltip("WARNING! This will cause a vending machine to dispense all its inventory at once.\r\nPressing this many times will result in a game crash due to too many objects being present!")
 
             end
 

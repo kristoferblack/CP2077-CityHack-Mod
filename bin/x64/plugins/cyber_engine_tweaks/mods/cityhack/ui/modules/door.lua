@@ -6,6 +6,7 @@ local DoorUI = {
     },
 
     DoorHeaderLabel = "DOORS",
+    ElevatorHeaderLabel = "ELEVATOR",
     ButtonLockedLabel = nil,
     ButtonSealedLabel = nil,
     ButtonAutoLabel = "Set Auto",
@@ -122,8 +123,6 @@ function DoorUI.Create(CityHack, Style, Observer)
             if ImGui.IsItemHovered() then
                 ImGui.SetTooltip("Reset the door to it's default game state.")
             end
-
-
 
             Theme.Spacing(3)
 

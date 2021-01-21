@@ -38,9 +38,6 @@ Stage a photoshoot or cause mayhem using these tools.
 
 -   **Kill** - Kill any NPC with the click of a button but watch out for police!
 
-  
-  
-
 
 ## Requirements
 This mod requires at least version 1.9 (not yet released) of [Cyber Engine Tweaks mod](https://github.com/yamashi/CyberEngineTweaks/releases).  
