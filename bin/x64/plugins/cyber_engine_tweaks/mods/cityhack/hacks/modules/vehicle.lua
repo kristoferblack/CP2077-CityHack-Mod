@@ -7,29 +7,28 @@ local Vehicle = {
 
 local Util = require(Vehicle.rootPath.."hacks.modules.utility")
 
-function Vehicle.SetAsPlayerVehicle()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-    local getTargetPS = getTarget:GetVehiclePS()
+function Vehicle.SetAsPlayerVehicle(target)
+    local getTargetPS = target:GetVehiclePS()
 
     getTargetPS:SetIsPlayerVehicle(1)
 end
 
-function Vehicle.Doors(state)
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeAV, getTarget) then
-        local getTargetPS = getTarget:GetVehiclePS()
+function Vehicle.Doors(state, target)
+    if Util.IsA(Vehicle.objectType, target) or Util.IsA(Vehicle.objectTypeAV, target) then
+        local getTargetPS = target:GetVehiclePS()
         
         if state == "open" then
             getTargetPS:OpenAllRegularVehDoors()
+
         elseif state == "close" then
             getTargetPS:CloseAllVehDoors()
+
         elseif state == "lock" then
             getTargetPS:LockAllVehDoors()
+
         elseif state == "unlock" then
             getTargetPS:UnlockAllVehDoors()
+
         end
         
         return true
@@ -38,12 +37,9 @@ function Vehicle.Doors(state)
     end
 end
 
-function Vehicle.Windows(state)
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    if Util.IsA(Vehicle.objectType, getTarget) then
-        local getTargetPS = getTarget:GetVehiclePS()
+function Vehicle.Windows(state, target)
+    if Util.IsA(Vehicle.objectType, target) then
+        local getTargetPS = target:GetVehiclePS()
 
         if state == "open" then 
             getTargetPS:OpenAllVehWindows()
@@ -58,29 +54,23 @@ function Vehicle.Windows(state)
     end
 end
 
-function Vehicle.DetachAll()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    if Util.IsA(Vehicle.objectType, getTarget) then
-        getTarget:DetachAllParts()
+function Vehicle.DetachAll(target)
+    if Util.IsA(Vehicle.objectType, target) then
+        target:DetachAllParts()
         return true
     else
         return false
     end
 end
 
-function Vehicle.Destroy()  
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    if Util.IsA(Vehicle.objectType, getTarget) then
-        local getTargetPS = getTarget:GetVehiclePS()
-        local getTargetVC = getTarget:GetVehicleComponent()
+function Vehicle.Destroy(target)  
+    if Util.IsA(Vehicle.objectType, target) then
+        local getTargetPS = target:GetVehiclePS()
+        local getTargetVC = target:GetVehicleComponent()
 
         getTargetVC:DestroyVehicle()
         getTargetVC:LoadExplodedState()
-        getTargetVC:ExplodeVehicle(getPlayer)
+        getTargetVC:ExplodeVehicle(Game.GetPlayer())
         getTargetPS:ForcePersistentStateChanged()
         
         return true
@@ -89,16 +79,13 @@ function Vehicle.Destroy()
     end
 end
 
-function Vehicle.Repair()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+function Vehicle.Repair(target)
+    if Util.IsA(Vehicle.objectType, target) or Util.IsA(Vehicle.objectTypeBike, target) then
+        local getTargetPS = target:GetVehiclePS()
+        local getTargetVC = target:GetVehicleComponent()
 
-    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeBike, getTarget) then
-        local getTargetPS = getTarget:GetVehiclePS()
-        local getTargetVC = getTarget:GetVehicleComponent()
-
-        getTarget:DestructionResetGrid()
-        getTarget:DestructionResetGlass()
+        target:DestructionResetGrid()
+        target:DestructionResetGlass()
 
         getTargetVC:RepairVehicle()
         getTargetPS:ForcePersistentStateChanged()
@@ -109,12 +96,9 @@ function Vehicle.Repair()
     end
 end
 
-function Vehicle.HonkFlash()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeBike, getTarget) then
-        local getTargetVC = getTarget:GetVehicleComponent()
+function Vehicle.HonkFlash(target)
+    if Util.IsA(Vehicle.objectType, target) or Util.IsA(Vehicle.objectTypeBike, target) then
+        local getTargetVC = target:GetVehicleComponent()
 
         getTargetVC:HonkAndFlash()
 
@@ -124,12 +108,9 @@ function Vehicle.HonkFlash()
     end
 end 
 
-function Vehicle.Lights(state)
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeBike, getTarget) or Util.IsA(Vehicle.objectTypeAV, getTarget) then
-        local getTargetVC = getTarget:GetVehicleComponent()
+function Vehicle.Lights(state, target)
+    if Util.IsA(Vehicle.objectType, target) or Util.IsA(Vehicle.objectTypeBike, target) or Util.IsA(Vehicle.objectTypeAV, target) then
+        local getTargetVC = target:GetVehicleComponent()
         local getTargetVCPS = getTargetVC:GetVehicleControllerPS()
 
         getTargetVCPS:SetLightMode(state)
@@ -140,16 +121,14 @@ function Vehicle.Lights(state)
     end
 end
 
-function Vehicle.Engine(state)
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeBike, getTarget) or Util.IsA(Vehicle.objectTypeAV, getTarget) then
-        local getTargetVC = getTarget:GetVehicleComponent()
+function Vehicle.Engine(state, target)
+    if Util.IsA(Vehicle.objectType, target) or Util.IsA(Vehicle.objectTypeBike, target) or Util.IsA(Vehicle.objectTypeAV, target) then
+        local getTargetVC = target:GetVehicleComponent()
         local getTargetVCPS = getTargetVC:GetVehicleControllerPS()
 
         if state == "on" then 
             getTargetVCPS:SetState(2)
+            
         elseif state == "off" then
             getTargetVCPS:SetState(1)
         end
@@ -160,23 +139,17 @@ function Vehicle.Engine(state)
     end 
 end
 
-function Vehicle.Reset()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-    
-    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeBike, getTarget) then
-        local getTargetVC = getTarget:GetVehicleComponent()
+function Vehicle.Reset(target)
+    if Util.IsA(Vehicle.objectType, target) or Util.IsA(Vehicle.objectTypeBike, target) then
+        local getTargetVC = target:GetVehicleComponent()
 
         getTargetVC:ResetVehicle()
     end
 end
 
-function Vehicle.SetGod()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeBike, getTarget) then
-        local getTargetVC = getTarget:GetVehicleComponent()
+function Vehicle.SetGod(target)
+    if Util.IsA(Vehicle.objectType, target) or Util.IsA(Vehicle.objectTypeBike, target) then
+        local getTargetVC = target:GetVehicleComponent()
 
         getTargetVC:SetImmortalityMode()
 
@@ -194,11 +167,8 @@ function Vehicle.ToggleSummonMode()
     return true
 end
 
-function Vehicle.CycleAppearance()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
-
-    if Util.IsA(Vehicle.objectType, getTarget) or Util.IsA(Vehicle.objectTypeBike, getTarget) then
+function Vehicle.CycleAppearance(target)
+    if Util.IsA(Vehicle.objectType, target) or Util.IsA(Vehicle.objectTypeBike, target) then
         getTarget:ScheduleAppearanceChange("Randomize")
         
         return true
@@ -220,12 +190,24 @@ function Vehicle.Despawn()
 
 end
 
-function Vehicle.DumpPS()
-    local getPlayer = Game.GetPlayer()
-    local getTarget = Game.GetTargetingSystem():GetLookAtObject(getPlayer, false, false)
+function Vehicle.PartState(part, target)
+    vehiclePS = target:GetVehiclePS()
 
-    if Util.IsA(Vehicle.objectType, getTarget) then
-        local getTargetPS = getTarget:GetVehiclePS()
+    if part == "door" then
+        return vehiclePS:GetDoorState(1).value
+
+    elseif part == "window" then
+        return vehiclePS:GetWindowState(1).value
+        
+    elseif part == "lock" then
+        return vehiclePS:GetDoorInteractionState(1).value
+    end
+end
+
+function Vehicle.DumpPS(target)
+
+    if Util.IsA(Vehicle.objectType, target) then
+        local getTargetPS = target:GetVehiclePS()
 
         print(Dump(getTargetPS, false))
     end

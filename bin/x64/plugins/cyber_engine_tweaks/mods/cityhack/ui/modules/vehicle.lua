@@ -1,6 +1,8 @@
 local VehicleUI = {
     rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
 
+    VehicleHeaderLabel = "VEHICLES",
+
     LightStateCurrent = 0,
     LightStates = {"Off", "Normal", "High Beams"},
 
@@ -16,88 +18,73 @@ local Util = require(VehicleUI.rootPath.."hacks.modules.utility")
 
 function VehicleUI.Create(CityHack, Style, Observer)
 
-    if Util.IfArrayHasValue(VehicleUI.ValidVehicleTypes, Observer.LookedObject()) then
+    local LookedObject = Observer.LookedObject()
 
-        Theme.TabStart()
 
-        if ImGui.BeginTabItem("Vehicles") then
-            Theme.TabInner()
-            ImGui.SetWindowSize(280, 630)
+    if Util.IfArrayHasValue(VehicleUI.ValidVehicleTypes, LookedObject) then
+
+        ImGui.SetNextItemOpen(true)
+        if ImGui.CollapsingHeader(VehicleUI.VehicleHeaderLabel) then
 
             ---------------- CAR DOORS ---------------- 
             Theme.DisplayLabel("Doors")
 
             ImGui.Columns(2, "CarDoors", false)
-            if ImGui.Button("Open All", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.Doors("open") then 
-                    CityHack.Util.Response("car doors", "open", true, false)
-                else 
-                    CityHack.Util.Response("car doors", "open", false, false)
-                end
-            end
 
-            if ImGui.Button("Close All", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.Doors("close") then 
-                    CityHack.Util.Response("car doors", "close", true, false)
-                else 
-                    CityHack.Util.Response("car doors", "close", false, false)
+            if CityHack.Vehicle.PartState("door", LookedObject) == "Open" then
+
+                if ImGui.Button("Close All", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Vehicle.Doors("close", LookedObject)
+                end
+
+            elseif CityHack.Vehicle.PartState("door", LookedObject) == "Closed" then
+
+                if ImGui.Button("Open All", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Vehicle.Doors("open", LookedObject)
                 end
             end
 
             ImGui.NextColumn()
 
-            if ImGui.Button("Lock All", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.Doors("lock") then 
-                    CityHack.Util.Response("car doors", "lock", true, false)
-                else 
-                    CityHack.Util.Response("car doors", "lock", false, false)
-                end
-            end
+            if CityHack.Vehicle.PartState("lock", LookedObject) == "Available" then
 
-            if ImGui.Button("Unlock All", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.Doors("lock") then 
-                    CityHack.Util.Response("car doors", "unlock", true, false)
-                else 
-                    CityHack.Util.Response("car doors", "unlock", false, false)
+                if ImGui.Button("Lock All", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Vehicle.Doors("lock", LookedObject)
+                end
+            
+            else
+                if ImGui.Button("Unlock All", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Vehicle.Doors("unlock", LookedObject)
                 end
             end
             ImGui.Columns(1)
 
-            ImGui.Spacing()
-            ImGui.Separator()
-            ImGui.Spacing()
+            Theme.InsertSeparator()
 
             ---------------- CAR WINDOWS ---------------- 
             ImGui.Columns(2, "CarWindows", false)
 
             Theme.DisplayLabel("Windows")
 
-            ImGui.PushID("CarWindowOpenAll")
-            if ImGui.Button("Open All", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.Windows("open") then 
-                    CityHack.Util.Response("car windows", "open", true, false)
-                else 
-                    CityHack.Util.Response("car windows", "open", false, false)
+            if CityHack.Vehicle.PartState("window", LookedObject) == "Open" then
+                ImGui.PushID("CarWindowCloseAll")
+                if ImGui.Button("Close All", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Vehicle.Windows("close", LookedObject)
                 end
+                ImGui.PopID()
+                
+            elseif CityHack.Vehicle.PartState("window", LookedObject) == "Closed" then
+                ImGui.PushID("CarWindowOpenAll")
+                if ImGui.Button("Open All", Style.buttonWidth, Style.buttonHeight) then
+                    CityHack.Vehicle.Windows("open", LookedObject)
+                end
+                ImGui.PopID()
             end
-            ImGui.PopID()
 
-            ImGui.PushID("CarWindowCloseAll")
-            if ImGui.Button("Close All", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.Windows("close") then 
-                    CityHack.Util.Response("car windows", "close", true, false)
-                else 
-                    CityHack.Util.Response("car windows", "close", false, false)
-                end
-            end
-            ImGui.PopID()
             ImGui.NextColumn()
 
             ---------------- CAR LIGHTS ---------------- 
-            Theme.PushStyleColor(ImGuiCol.Text,	Theme.CustomToggleOn)
-            ImGui.LabelText("##","LIGHTS")
-            ImGui.PopStyleColor()
-            ImGui.Spacing()
+            Theme.DisplayLabel("Lights")
 
             local lights = table.concat(VehicleUI.LightStates, "\0")
 
@@ -106,19 +93,10 @@ function VehicleUI.Create(CityHack, Style, Observer)
             ImGui.PopItemWidth()
 
             if ImGui.Button("Set Lights", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.Lights(VehicleUI.LightStateCurrent) then
-                    CityHack.Util.Response("car lights", "set", true, false)
-                else
-                    CityHack.Util.Response("car lights", "set", false, false)
-                end
+                CityHack.Vehicle.Lights(VehicleUI.LightStateCurrent, LookedObject)
             end
 
-            ImGui.Spacing()
-            ImGui.Spacing()
-            ImGui.Spacing()
-            ImGui.Spacing()
-            ImGui.Separator()
-            ImGui.Spacing()
+            Theme.InsertSeparator()
             ImGui.Columns(1)
 
             ---------------- CAR ENGINE ---------------- 
@@ -128,41 +106,23 @@ function VehicleUI.Create(CityHack, Style, Observer)
 
                 
             if ImGui.Button("Turn On", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.Engine("on") then
-                    CityHack.Util.Response("vehicle engine", "on", true, false)
-                else
-                    CityHack.Util.Response("vehicle engine", "on", false, false)
-                end
+                CityHack.Vehicle.Engine("on", LookedObject)
             end
 
             if ImGui.Button("Turn Off", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.Engine("off") then
-                    CityHack.Util.Response("vehicle engine", "off", true, false)
-                else
-                    CityHack.Util.Response("vehicle engine", "off", false, false)
-                end
+                CityHack.Vehicle.Engine("off", LookedObject)
             end
 
-            ImGui.Spacing()
-            ImGui.Spacing()
 
             ---------------- CAR MAYHEM ---------------- 
             Theme.DisplayLabel("Mayhem")
 
-            if ImGui.Button("Detach All Parts", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.DetachAll() then
-                    CityHack.Util.Response("vehicle", "detach all", true, false)
-                else
-                    CityHack.Util.Response("vehicle", "detach all", false, false)
-                end
+            if ImGui.Button("Detach Parts", Style.buttonWidth, Style.buttonHeight) then
+                CityHack.Vehicle.DetachAll(LookedObject)
             end
 
             if ImGui.Button("Destroy", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.Destroy() then
-                    CityHack.Util.Response("vehicle", "destroy", true, false)
-                else
-                    CityHack.Util.Response("vehicle", "destroy", false, false)
-                end
+                CityHack.Vehicle.Destroy(LookedObject)
             end
 
             if ImGui.IsItemHovered() then
@@ -176,11 +136,7 @@ function VehicleUI.Create(CityHack, Style, Observer)
 
             ---------------- CAR UTILITY ---------------- 
             if ImGui.Button("Repair", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.Repair() then
-                    CityHack.Util.Response("vehicle", "repair", true, false)
-                else
-                    CityHack.Util.Response("vehicle", "repair", false, false)
-                end
+                CityHack.Vehicle.Repair(LookedObject)
             end
 
             if ImGui.IsItemHovered() then
@@ -188,31 +144,19 @@ function VehicleUI.Create(CityHack, Style, Observer)
             end
 
             if ImGui.Button("Honk & Flash", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.HonkFlash() then
-                    CityHack.Util.Response("vehicle", "honk & flash", true, false)
-                else
-                    CityHack.Util.Response("vehicle", "honk & flash", false, false)
-                end
+                CityHack.Vehicle.HonkFlash(LookedObject)
             end
 
-            if ImGui.Button("Set Immortal", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.SetGod() then
-                    CityHack.Util.Response("vehicle", "set immortal", true, false)
-                else
-                    CityHack.Util.Response("vehicle", "set immortal", false, false)
-                end
-            end
+            -- if ImGui.Button("Set Immortal", Style.buttonWidth, Style.buttonHeight) then
+            --     CityHack.Vehicle.SetGod(LookedObject)
+            -- end
             
             if ImGui.IsItemHovered() then
                 ImGui.SetTooltip("Sets vehicle to immortality meaning it can't be fully destroyed.\r\nWill still take visual damage.")
             end
 
             if ImGui.Button("Toggle Summon", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.ToggleSummonMode() then
-                    CityHack.Util.Response("vehicle", "toggle summon mode", true, false)
-                else
-                    CityHack.Util.Response("vehicle", "toggle summon mode", false, false)
-                end
+                CityHack.Vehicle.ToggleSummonMode(LookedObject)
             end
 
             if ImGui.IsItemHovered() then
@@ -221,11 +165,7 @@ function VehicleUI.Create(CityHack, Style, Observer)
 
 
             if ImGui.Button("! Cycle Look", Style.buttonWidth, Style.buttonHeight) then
-                if CityHack.Vehicle.CycleAppearance() then
-                    CityHack.Util.Response("vehicle", "cycle appearance", true, false)
-                else
-                    CityHack.Util.Response("vehicle", "cycle appearance", false, false)
-                end
+                CityHack.Vehicle.CycleAppearance(LookedObject)
             end
 
             if ImGui.IsItemHovered() then
@@ -240,10 +180,9 @@ function VehicleUI.Create(CityHack, Style, Observer)
             --     end
             -- end
 
-
             ImGui.Columns(1)
 
-        ImGui.EndTabItem()
+            Theme.Spacing(3)
         end
     end
 

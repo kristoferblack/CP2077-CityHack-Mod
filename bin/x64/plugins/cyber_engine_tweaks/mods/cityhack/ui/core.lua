@@ -9,7 +9,7 @@ function UICore.Create(CityHack)
 
     UICore.DoorUI = require(UICore.rootPath.."ui.modules.door")
     UICore.DeviceUI = require(UICore.rootPath.."ui.modules.device")
-    -- UICore.VehicleUI = require(UICore.rootPath.."ui.modules.vehicle")
+    UICore.VehicleUI = require(UICore.rootPath.."ui.modules.vehicle")
     -- UICore.NpcUI = require(UICore.rootPath.."ui.modules.npc")
     UICore.OtherUI = require(UICore.rootPath.."ui.modules.other")
     UICore.UtilUI = require(UICore.rootPath.."ui.modules.util")
@@ -34,7 +34,7 @@ function UICore.Create(CityHack)
             halfButtonWidth = ((ImGui.GetWindowContentRegionWidth() / 2) - 4.3)
         }
 
-        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 5, 5)
+        ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 10, 10)
 
         if ImGui.BeginChild("ObserverChild", -1, 65, true) then
             UICore.Theme.DisplayLabel("Looking At")
@@ -54,7 +54,7 @@ function UICore.Create(CityHack)
         UICore.DeviceUI.Create(CityHack, Style, UICore.Observer)
 
         -- ---------------- CARS TAB ---------------- 
-        -- UICore.VehicleUI.Create(CityHack, Style, UICore.Observer)
+        UICore.VehicleUI.Create(CityHack, Style, UICore.Observer)
 
         -- ---------------- NPC TAB ---------------- 
         -- UICore.NpcUI.Create(CityHack, Style, UICore.Observer)
@@ -63,7 +63,7 @@ function UICore.Create(CityHack)
         UICore.OtherUI.Create(CityHack, Style, UICore.Observer)
 
         ---------------- UTIL TAB ---------------- 
-        UICore.UtilUI.Create(CityHack, Style)
+        UICore.UtilUI.Create(CityHack, Style, UICore.Observer)
         
     end
     ImGui.End()

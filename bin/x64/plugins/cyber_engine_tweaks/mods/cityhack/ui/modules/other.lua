@@ -2,7 +2,7 @@ local OtherUI = {
     rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
     ValidTypes = {
         "ElevatorFloorTerminal",
-        "RoadBlock"
+        -- "RoadBlock"
     },
     States = {
         CityLights = "Default",
@@ -41,14 +41,14 @@ function OtherUI.Create(CityHack, Style, Observer)
                 Theme.Spacing(1)
             end
             
-            if Observer.IsA("RoadBlock") then
+            -- if Observer.IsA("RoadBlock") then
                 
-                Theme.DisplayLabel("Road Block")
+            --     Theme.DisplayLabel("Road Block")
                 
-                if ImGui.Button("Toggle Open", Style.buttonWidth, Style.buttonHeight) then
-                    CityHack.Other.RoadBlockToggle()
-                end
-            end
+            --     if ImGui.Button("Toggle Open", Style.buttonWidth, Style.buttonHeight) then
+            --         CityHack.Other.RoadBlockToggle()
+            --     end
+            -- end
             
         end
     end

@@ -50,13 +50,6 @@ function Utility.Response(system, action, result, context)
 
 end
 
--- dump object
-function Utility.Dump()
-    local player = Game.GetPlayer()
-    local dump = Game.GetTargetingSystem():GetLookAtObject(player,false,false)
-    print(Dump(dump, false))
-end 
-
 function Utility.IsA(kind, value)
     if type(value) == kind then
         return true
@@ -76,6 +69,13 @@ function Utility.IsA(kind, value)
 
     return false
 end
+
+-- dump object
+function Utility.Dump()
+    local player = Game.GetPlayer()
+    local dump = Game.GetTargetingSystem():GetLookAtObject(player,false,false)
+    print(Dump(dump, false))
+end 
 
 function Utility.DumpController()
     local player = Game.GetPlayer()

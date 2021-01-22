@@ -4,9 +4,11 @@ UtilUI = {
 
 local Theme = require(UtilUI.rootPath.."ui.theme")
 
-function UtilUI.Create(CityHack, Style) 
+function UtilUI.Create(CityHack, Style, Observer) 
 
     if ImGui.CollapsingHeader("UTILITY") then
+
+        local LookedObject = Observer.LookedObject()
 
         ImGui.PushTextWrapPos()
         Theme.PushStyleColor(ImGuiCol.Text,	Theme.CustomToggleOn)
@@ -35,7 +37,7 @@ function UtilUI.Create(CityHack, Style)
         end
 
         if ImGui.Button("Dump Vehicle PS", Style.buttonWidth, Style.buttonHeight) then
-            CityHack.Vehicle.DumpPS()
+            CityHack.Vehicle.DumpPS(LookedObject)
         end
 
         if ImGui.Button("Dump Player Vehicles", Style.buttonWidth, Style.buttonHeight) then

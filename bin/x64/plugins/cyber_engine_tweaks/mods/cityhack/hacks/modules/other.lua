@@ -5,7 +5,7 @@ function Other.RoadBlockToggle()
     local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)
     local targetPS = target:GetDevicePS()
 
-    target:ToggleBlockade()
+    targetPS:ActionQuickHackToggleBlockade()
 end
 
 function Other.SetCityWideLight(state)
