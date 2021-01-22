@@ -76,6 +76,7 @@ function Theme.PushStyleColor(style, color)
 end
 
 function Theme.Start()
+	
 	Theme.PushStyleColor(ImGuiCol.TitleBg,				    Theme.TitleBg)
 	Theme.PushStyleColor(ImGuiCol.TitleBgCollapsed,		    Theme.TitleBgCollapsed)
 	Theme.PushStyleColor(ImGuiCol.TitleBgActive,		    Theme.TitleBgActive)
@@ -99,12 +100,6 @@ function Theme.Start()
 	Theme.PushStyleColor(ImGuiCol.ButtonHovered,		    Theme.ButtonHovered)
 	Theme.PushStyleColor(ImGuiCol.ButtonActive,			    Theme.ButtonActive)
 	Theme.PushStyleColor(ImGuiCol.Separator,			    Theme.Separator)
-
-	ImGui.SetWindowFontScale(1)
-    ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 15, 15)
-    ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0)
-    ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 5)
-    ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 2)
 end
 
 function Theme.End()

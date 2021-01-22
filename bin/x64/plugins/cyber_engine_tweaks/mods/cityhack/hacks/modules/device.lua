@@ -11,14 +11,14 @@ function Device.State(state, param, target)
 
         if targetPS then targetPS:PowerDevice() end
         
-        Device.State("Activate")
+        Device.State("Activate", nil, target)
 
     elseif state == "PowerOff" then
         target:TurnOffDevice()
 
         if targetPS then targetPS:UnpowerDevice() end
 
-        Device.State("Dectivate")
+        Device.State("Dectivate", nil, target)
     
     elseif state == "PowerCut" then
         target:CutPower()

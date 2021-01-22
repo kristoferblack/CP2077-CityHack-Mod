@@ -51,13 +51,13 @@ function DeviceUI.Create(CityHack, Style, Observer)
 
             if not CityHack.Device.Is("On", LookedObject) then
                 if ImGui.Button("Turn On", Style.buttonWidth, Style.buttonHeight) then
-                    CityHack.Device.State("PowerOn", false, LookedObject)
+                    CityHack.Device.State("PowerOn", nil, LookedObject)
                 end
             end
 
             if CityHack.Device.Is("On", LookedObject) then
                 if ImGui.Button("Turn Off", Style.buttonWidth, Style.buttonHeight) then
-                    CityHack.Device.State("PowerOff", false, LookedObject)
+                    CityHack.Device.State("PowerOff", nil, LookedObject)
                 end
             end
 

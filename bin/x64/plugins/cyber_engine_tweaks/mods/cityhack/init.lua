@@ -23,7 +23,7 @@
 
 
 CityHack = { 
-    description = "",
+    description = "CityHack",
     rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
     drawWindow = false
 }
@@ -76,15 +76,13 @@ function CityHack:new()
 
     registerForEvent("onOverlayOpen", function()
         CityHack.drawWindow = true
-      end)
+    end)
       
     registerForEvent("onOverlayClose", function()
         CityHack.drawWindow = false
     end)
 
     registerForEvent("onDraw", function()
-        ImGui.SetNextWindowPos(0, 500, ImGuiCond.FirstUseEver)
-        ImGui.SetNextWindowSize(265, 600, ImGuiCond.Appearing)
 
         if CityHack.drawWindow then
 
@@ -92,8 +90,6 @@ function CityHack:new()
 
         end
     end)    
-
-	return CityHack
 end
 
 return CityHack:new()

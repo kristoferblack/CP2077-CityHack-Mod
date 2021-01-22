@@ -16,8 +16,17 @@ function UICore.Create(CityHack)
 
     UICore.Theme.Start()
     
+    ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 15, 15)
+    ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0)
+    ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 5)
+    ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 2)
+
+    ImGui.SetNextWindowPos(0, 500, ImGuiCond.FirstUseEver)
+    ImGui.SetNextWindowSize(265, 600, ImGuiCond.Appearing)
+
     if ImGui.Begin("CITY H4CK") then
         ImGui.PopStyleVar(4)
+        ImGui.SetWindowFontScale(1)
 
         local Style = {
             buttonWidth = -1,
@@ -31,7 +40,6 @@ function UICore.Create(CityHack)
             UICore.Theme.DisplayLabel("Looking At")
             ImGui.Text(tostring(UICore.Observer.LookedObject(true)))
         end
-
         ImGui.EndChild()
 
         ImGui.PopStyleVar()
@@ -58,8 +66,8 @@ function UICore.Create(CityHack)
         UICore.UtilUI.Create(CityHack, Style)
         
     end
-    UICore.Theme.End()
     ImGui.End()
+    UICore.Theme.End()
 end
 
 return UICore
