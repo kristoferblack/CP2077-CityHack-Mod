@@ -52,6 +52,10 @@ function UtilUI.Create(CityHack, Style, Observer)
             CityHack.Util.DumpTweakDBID()
         end
 
+        if ImGui.Button("Dump Observer Component", Style.buttonWidth, Style.buttonHeight) then
+            CityHack.Observer.LookedComponent()
+        end
+
     end
 
 end

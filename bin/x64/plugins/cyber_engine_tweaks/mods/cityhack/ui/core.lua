@@ -1,5 +1,6 @@
 UICore = {
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack."
+    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
+    devMode = false
 }
 
 UICore.Theme = require(UICore.rootPath.."ui.theme")
@@ -15,17 +16,11 @@ function UICore.Create(CityHack)
     UICore.UtilUI = require(UICore.rootPath.."ui.modules.util")
 
     UICore.Theme.Start()
-    
-    ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 15, 15)
-    ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0)
-    ImGui.PushStyleVar(ImGuiStyleVar.ScrollbarSize, 5)
-    ImGui.PushStyleVar(ImGuiStyleVar.WindowBorderSize, 2)
 
     ImGui.SetNextWindowPos(0, 500, ImGuiCond.FirstUseEver)
     ImGui.SetNextWindowSize(265, 600, ImGuiCond.Appearing)
 
     if ImGui.Begin("CITY H4CK") then
-        ImGui.PopStyleVar(4)
         ImGui.SetWindowFontScale(1)
 
         local Style = {
@@ -37,8 +32,9 @@ function UICore.Create(CityHack)
         ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 10, 10)
 
         if ImGui.BeginChild("ObserverChild", -1, 65, true) then
-            UICore.Theme.DisplayLabel("Looking At")
+            UICore.Theme.DisplayLabel("Object")
             ImGui.Text(tostring(UICore.Observer.LookedObject(true)))
+            -- ImGui.Text(tostring(UICore.Observer.LookedComponent()))
         end
         ImGui.EndChild()
 
@@ -62,8 +58,10 @@ function UICore.Create(CityHack)
         -- ---------------- OTHER TAB ---------------- 
         UICore.OtherUI.Create(CityHack, Style, UICore.Observer)
 
+        if UICore.devMode then
         ---------------- UTIL TAB ---------------- 
-        UICore.UtilUI.Create(CityHack, Style, UICore.Observer)
+            UICore.UtilUI.Create(CityHack, Style, UICore.Observer)
+        end
         
     end
     ImGui.End()

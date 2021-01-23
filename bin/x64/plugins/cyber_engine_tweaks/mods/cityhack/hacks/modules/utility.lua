@@ -129,6 +129,21 @@ function Utility.DumpTweakDBID()
     print( target:GetRecordID() )
 end
 
+function Utility.DumpLightComponents()
+    local player = Game.GetPlayer()
+    local target = Game.GetTargetingSystem():GetLookAtObject(player,false,false)
+    local comps = target.lightComponents
+
+    print(#comps)
+
+    for _, component in ipairs(comps) do
+        print(_)
+        -- print(component)
+        print(GameDump(component))
+
+    end
+end
+
 function Utility.DumpVendorItems()
     local player = Game.GetPlayer()
     local target = Game.GetTargetingSystem():GetLookAtObject(player, false, false)

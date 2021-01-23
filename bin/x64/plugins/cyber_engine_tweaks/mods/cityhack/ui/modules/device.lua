@@ -21,7 +21,8 @@ local DeviceUI = {
         "ConfessionBooth",
         "Computer",
         "BillboardDevice",
-        "Reflector"
+        "Reflector",
+        "GenericDevice"
     },
 
     TVChannel = 0,
@@ -71,11 +72,11 @@ function DeviceUI.Create(CityHack, Style, Observer)
 
 
                 if ImGui.Button("Start", Style.halfButtonWidth, Style.buttonHeight) then
-                    CityHack.Device.State("StartGlitching")
+                    CityHack.Device.State("StartGlitching", nil, LookedObject)
                 end
 
                 if ImGui.Button("Stop", Style.halfButtonWidth, Style.buttonHeight) then
-                    CityHack.Device.State("StopGlitching")
+                    CityHack.Device.State("StopGlitching", nil, LookedObject)
                 end
 
                 ImGui.Columns(1)
@@ -92,7 +93,7 @@ function DeviceUI.Create(CityHack, Style, Observer)
 
                     if ImGui.BeginCombo("##TVChannels", DeviceUI.TVChannelsCurrent) then
 
-                        for i, channel in ipairs(TVChannels) do
+                        for i, channel in ipairs(DeviceUI.TVChannels) do
                             if ImGui.Selectable(channel, (channel == DeviceUI.TVChannelsCurrent)) then
                                 DeviceUI.TVChannelsCurrent = channel
                                 ImGui.SetItemDefaultFocus();
@@ -120,11 +121,11 @@ function DeviceUI.Create(CityHack, Style, Observer)
                 Theme.DisplayLabel("Blinking")
 
                 if ImGui.Button("Start Blinking", Style.buttonWidth, Style.buttonHeight) then
-                    CityHack.Device.State("StartBlinking")
+                    CityHack.Device.State("StartBlinking", nil, LookedObject)
                 end
 
                 if ImGui.Button("Stop Blinking", Style.buttonWidth, Style.buttonHeight) then
-                    CityHack.Device.State("StopBlinking")
+                    CityHack.Device.State("StopBlinking", nil, LookedObject)
                 end
 
             end

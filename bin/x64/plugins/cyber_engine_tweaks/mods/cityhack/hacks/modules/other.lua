@@ -11,18 +11,19 @@ end
 function Other.SetCityWideLight(state)
     local scriptSystem =  Game.GetScriptableSystemsContainer()
     local cityLightSystem = scriptSystem:Get('CityLightSystem')
-
-    -- cityLightSystem:AddForcedStateRequest("ForcedON", "DEBUG", "Absolute", false)
-
+    
     -- STATES: 0 = default, 1 = forced on, 2 = forced off
 
     if state == "Reset" then
+        cityLightSystem:AddForcedStateRequest("DEFAULT", "DEBUG", "Absolute", false)
         cityLightSystem.state = 0
 
     elseif state == "AllOn" then
+        cityLightSystem:AddForcedStateRequest("ForcedON", "DEBUG", "Absolute", false)
         cityLightSystem.state = 1
 
     elseif state == "AllOff" then
+        cityLightSystem:AddForcedStateRequest("ForcedOFF", "DEBUG", "Absolute", false)
         cityLightSystem.state = 2
         
     end
