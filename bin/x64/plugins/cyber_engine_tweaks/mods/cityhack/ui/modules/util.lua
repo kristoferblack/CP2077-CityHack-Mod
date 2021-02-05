@@ -1,8 +1,6 @@
-UtilUI = {
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
-}
+UtilUI = {}
 
-local Theme = require(UtilUI.rootPath.."ui.theme")
+local Theme = require("ui/theme")
 
 function UtilUI.Create(CityHack, Style, Observer) 
 

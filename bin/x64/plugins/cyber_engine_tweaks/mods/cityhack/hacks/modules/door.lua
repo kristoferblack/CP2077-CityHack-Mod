@@ -1,8 +1,6 @@
-local Door = {
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
-}
+Door = {}
 
-local Util = require(Door.rootPath.."hacks.modules.utility")
+local Util = require("hacks/modules/utility")
 
 function Door.Toggle(state, target)
 

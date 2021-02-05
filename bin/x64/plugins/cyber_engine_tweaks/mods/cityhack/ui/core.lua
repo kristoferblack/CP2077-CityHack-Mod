@@ -1,19 +1,18 @@
 UICore = {
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
-    devMode = false
+    devMode = true
 }
 
-UICore.Theme = require(UICore.rootPath.."ui.theme")
+UICore.Theme = require("ui/theme")
 
 function UICore.Create(CityHack)
-    UICore.Observer = require(UICore.rootPath.."observer")
+    UICore.Observer = require("observer")
 
-    UICore.DoorUI = require(UICore.rootPath.."ui.modules.door")
-    UICore.DeviceUI = require(UICore.rootPath.."ui.modules.device")
-    UICore.VehicleUI = require(UICore.rootPath.."ui.modules.vehicle")
-    -- UICore.NpcUI = require(UICore.rootPath.."ui.modules.npc")
-    UICore.OtherUI = require(UICore.rootPath.."ui.modules.other")
-    UICore.UtilUI = require(UICore.rootPath.."ui.modules.util")
+    UICore.DoorUI = require("ui/modules/door")
+    UICore.DeviceUI = require("ui/modules/device")
+    UICore.VehicleUI = require("ui/modules/vehicle")
+    -- UICore.NpcUI = require("ui/modules/npc")
+    UICore.OtherUI = require("ui/modules/other")
+    UICore.UtilUI = require("ui/modules/util")
 
     UICore.Theme.Start()
 
@@ -34,7 +33,6 @@ function UICore.Create(CityHack)
         if ImGui.BeginChild("ObserverChild", -1, 65, true) then
             UICore.Theme.DisplayLabel("Object")
             ImGui.Text(tostring(UICore.Observer.LookedObject(true)))
-            -- ImGui.Text(tostring(UICore.Observer.LookedComponent()))
         end
         ImGui.EndChild()
 

@@ -24,42 +24,41 @@
 
 CityHack = { 
     description = "CityHack",
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
     drawWindow = false
 }
 
 -- Hack: Forces required lua files to reload when using hot reload
-for k, _ in pairs(package.loaded) do
-    if string.match(k, CityHack.rootPath .. ".*") then
-        package.loaded[k] = nil
-    end
-end
+-- for k, _ in pairs(package.loaded) do
+--     if string.match(k, CityHack.rootPath .. ".*") then
+--         package.loaded[k] = nil
+--     end
+-- end
 
 function CityHack:new()
 
-    setmetatable(CityHack, self)
-    self.__index = self 
+    -- setmetatable(CityHack, self)
+    -- self.__index = self 
 
     -- START ImGui ---------------------------------------------------------------------------
 
-    CityHack.Door = require(CityHack.rootPath.."hacks.modules.door")
-    CityHack.Elevator = require(CityHack.rootPath.."hacks.modules.elevator")
-    CityHack.Device = require(CityHack.rootPath.."hacks.modules.device")
-    CityHack.Vehicle = require(CityHack.rootPath.."hacks.modules.vehicle")
-    CityHack.NPC = require(CityHack.rootPath.."hacks.modules.npc")
-    CityHack.Other = require(CityHack.rootPath.."hacks.modules.other")
-    CityHack.Util = require(CityHack.rootPath.."hacks.modules.utility")
+    CityHack.Door = require("hacks/modules/door")
+    CityHack.Elevator = require("hacks/modules/elevator")
+    CityHack.Device = require("hacks/modules/device")
+    CityHack.Vehicle = require("hacks/modules/vehicle")
+    CityHack.NPC = require("hacks/modules/npc")
+    CityHack.Other = require("hacks/modules/other")
+    CityHack.Util = require("hacks/modules/utility")
 
-    CityHack.Observer = require(CityHack.rootPath.."observer")
+    CityHack.Observer = require("observer")
 
 
     -- START CoreUI --------------------------------------------------------------------------
 
-    CityHack.CoreUI = require(CityHack.rootPath.."ui.core")
+    CityHack.CoreUI = require("ui/core")
 
     -- START Hotkeys -------------------------------------------------------------------------
 
-    registerHotkey("CityHack_Menu", "Toggle_Window", function()
+    registerHotkey("CityHack_Menu", "Toggle Window", function()
         CityHack.drawWindow = not CityHack.drawWindow
     end)
 
@@ -67,7 +66,7 @@ function CityHack:new()
     -- START Events --------------------------------------------------------------------------
     
     registerForEvent("onInit", function()
-        CityHack.Util.Log("Loaded! Press F2 to toggle the UI.")
+        CityHack.Util.Log("Loaded! Go to Cyber Engine Tweaks window and click Hotkeys to assign a hotkey.")
     end)
       
     registerForEvent("onUpdate", function(deltaTime)

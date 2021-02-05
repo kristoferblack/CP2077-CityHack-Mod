@@ -1,7 +1,6 @@
-local Device = {
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
-}
-local Util = require(Device.rootPath.."hacks.modules.utility")
+Device = {}
+
+local Util = require("hacks/modules/utility")
 
 function Device.State(state, param, target)
     local targetPS = target:GetDevicePS()

@@ -1,10 +1,8 @@
-local Location = {
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack."
-}
+local Location = {}
 
 function Location.ListAll()
 
-    local db = sqlite3.open(Location.rootPath.."main.db")
+    local db = sqlite3.open("main.db")
 
     -- db:exec[[
     --   CREATE TABLE test (id INTEGER PRIMARY KEY, content);

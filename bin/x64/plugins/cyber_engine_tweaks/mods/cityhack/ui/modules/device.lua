@@ -1,5 +1,4 @@
-local DeviceUI = {
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
+DeviceUI = {
     ValidDeviceTypes = {
         "TV",
         "ArcadeMachine",
@@ -31,8 +30,8 @@ local DeviceUI = {
     TVChannelsCurrent = "1"
 }
 
-local Theme = require(DeviceUI.rootPath.."ui.theme")
-local Util = require(DeviceUI.rootPath.."hacks.modules.utility")
+local Theme = require("ui/theme")
+local Util = require("hacks/modules/utility")
 
 
 function DeviceUI.Create(CityHack, Style, Observer)

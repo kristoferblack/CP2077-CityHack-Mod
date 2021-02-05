@@ -1,5 +1,4 @@
-local OtherUI = {
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
+OtherUI = {
     ValidTypes = {
         "ElevatorFloorTerminal",
         -- "RoadBlock"
@@ -13,8 +12,8 @@ local OtherUI = {
     HeaderCitywideLabel = "CITY WIDE"
 }
 
-local Theme = require(OtherUI.rootPath.."ui.theme")
-local Util = require(OtherUI.rootPath.."hacks.modules.utility")
+local Theme = require("ui/theme")
+local Util = require("hacks/modules/utility")
 
 function OtherUI.Create(CityHack, Style, Observer)
 

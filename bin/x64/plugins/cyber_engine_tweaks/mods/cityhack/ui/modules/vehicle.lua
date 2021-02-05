@@ -1,6 +1,4 @@
-local VehicleUI = {
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
-
+VehicleUI = {
     VehicleHeaderLabel = "VEHICLES",
 
     LightStateCurrent = 0,
@@ -13,8 +11,8 @@ local VehicleUI = {
     }
 }
 
-local Theme = require(VehicleUI.rootPath.."ui.theme")
-local Util = require(VehicleUI.rootPath.."hacks.modules.utility")
+local Theme = require("ui/theme")
+local Util = require("hacks/modules/utility")
 
 function VehicleUI.Create(CityHack, Style, Observer)
 

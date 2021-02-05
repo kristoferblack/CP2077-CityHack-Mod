@@ -1,11 +1,10 @@
 local Vehicle = {
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
     objectType = "vehicleCarBaseObject",
     objectTypeBike = "vehicleBikeBaseObject",
     objectTypeAV = "vehicleAVBaseObject"
 }
 
-local Util = require(Vehicle.rootPath.."hacks.modules.utility")
+local Util = require("hacks/modules/utility")
 
 function Vehicle.SetAsPlayerVehicle(target)
     local getTargetPS = target:GetVehiclePS()
@@ -169,7 +168,7 @@ end
 
 function Vehicle.CycleAppearance(target)
     if Util.IsA(Vehicle.objectType, target) or Util.IsA(Vehicle.objectTypeBike, target) then
-        getTarget:ScheduleAppearanceChange("Randomize")
+        target:ScheduleAppearanceChange("Randomize")
         
         return true
     else
@@ -185,9 +184,6 @@ function Vehicle.Despawn()
 
     print(id)
     vehicleSystem.DespawnPlayerVehicle(id)
-
-    --print(Game.GetTargetingSystem():GetLookAtObject(Game.GetPlayer(), false, false):GetRecord())
-
 end
 
 function Vehicle.PartState(part, target)

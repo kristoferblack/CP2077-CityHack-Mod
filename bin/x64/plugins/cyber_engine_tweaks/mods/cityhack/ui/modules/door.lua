@@ -1,5 +1,4 @@
-local DoorUI = {
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
+DoorUI = {
     ValidDoorTypes = {
         "Door",
         "FakeDoor"
@@ -14,8 +13,8 @@ local DoorUI = {
     ButtonResetLabel = "Reset"
 }
 
-local Theme = require(DoorUI.rootPath.."ui.theme")
-local Util = require(DoorUI.rootPath.."hacks.modules.utility")
+local Theme = require("ui/theme")
+local Util = require("hacks/modules/utility")
 
 function DoorUI.Create(CityHack, Style, Observer)
 

@@ -1,12 +1,11 @@
 local NpcUI = {
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack.",
     ValidNPCTypes = {
         "NPCPuppet"
     }
 }
 
-local Theme = require(NpcUI.rootPath.."ui.theme")
-local Util = require(NpcUI.rootPath.."hacks.modules.utility")
+local Theme = require("ui/theme")
+local Util = require("hacks/modules/utility")
 
 function NpcUI.Create(CityHack, Style, Observer)
 

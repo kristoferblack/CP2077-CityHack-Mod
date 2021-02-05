@@ -1,6 +1,5 @@
 Elevator = { 
-    description = "",
-    rootPath =  "plugins.cyber_engine_tweaks.mods.cityhack."
+    description = ""
 }
 
 function Elevator.RestoreAccess()
@@ -12,6 +11,7 @@ function Elevator.RestoreAccess()
             )
             return
         end
+        liftControllerPS:TurnAuthorizationModuleOFF()
         liftControllerPS:ForceEnableDevice()
         liftControllerPS:ForceDeviceON()
  
@@ -29,7 +29,7 @@ function Elevator.RestoreAccess()
             local actionShowFloor = liftControllerPS:ActionQuestShowFloor()
             local actionActiveFloor = liftControllerPS:ActionQuestSetFloorActive()
 
-            print( actionShowFloor:IsInactive() )
+            -- print( actionShowFloor:IsInactive() )
 
             -- for _, props in ipairs(actionShowFloor:GetProperties()) do
             -- print( GameDump(props) )

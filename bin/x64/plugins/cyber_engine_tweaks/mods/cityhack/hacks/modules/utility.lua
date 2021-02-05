@@ -1,4 +1,4 @@
-local Utility = {
+Utility = {
     prefix = "[CITY H4CK] "
 }
 

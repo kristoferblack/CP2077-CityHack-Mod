@@ -1,4 +1,4 @@
-local Other = {}
+Other = {}
 
 function Other.RoadBlockToggle()
     local player = Game.GetPlayer()

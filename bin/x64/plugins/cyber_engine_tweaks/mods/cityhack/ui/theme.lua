@@ -1,4 +1,4 @@
-local Theme = {
+Theme = {
     Text                                =           { 1, 0.44, 0.4, 1        },
     TextWhite                           =           { 1, 1, 1, 1             },
 	TextDisabled                        =           { 0.48, 0.39, 0.40, 1    },
