@@ -67,7 +67,7 @@ function Device.VendingMachine(action)
             local quantity = item.quantity
 
             for i = 1, quantity do
-                local dispenseRequest = target:CreateDispenseRequest(false, items)
+                local dispenseRequest = target:CreateDispenseRequest(false, item.itemID)
                 target:DispenseItems(dispenseRequest)
             end
         end
